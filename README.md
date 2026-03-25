@@ -2,6 +2,19 @@
 
 Here pre-setup steps could be found: [Automation common requirements](https://utang.atlassian.net/wiki/spaces/TT/pages/3143696421/Automation+common+requirements).
 
+
+<details>
+  <summary >Features</summary>
+<h6>A. Hierarchical test-data management</h6>
+<img title="dsgdgfgdffgd" src="src0.png" width="500"/>
+<h6>B. Unified architecture for API/Web/Android/iOS test  </h6>
+<img src="src1.png" width="400"/>
+<h6>C. Dockerized cloud-based AT CICD</h6>
+<img src="src2.png" width="600"/>
+<h6>D. Mock-based test data control</h6>
+<img src="src3.png" width="400"/>
+</details>
+
 <details>
   <summary >I. Setup project</summary>
 
