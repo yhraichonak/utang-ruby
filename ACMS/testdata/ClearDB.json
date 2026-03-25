@@ -1,0 +1,11 @@
+{
+  "General": {
+    "Description": "Configuration for TestAutomation: Clear DB",
+    "IsJsonSetup": true,
+    "ClearDatabase": true,
+    "ResetFlightManager": true,
+    "ClearAlarms": true,
+    "WriteOutputToFile": true,
+    "OutputFile": "c:\\temp\\test_output.txt"
+  }
+}

@@ -1,0 +1,50 @@
+
+
+pipeline {
+
+  agent any
+  options { timestamps () }
+      parameters {
+          string(name: 'results', defaultValue: null, description: null)
+          string(name: 'trigger', defaultValue: null, description: null)
+}
+  stages {
+    stage('Aggregate results') {
+      steps {
+        cleanWs()
+        bat "move ${params.results} results"
+      }
+    }
+  }
+ post {
+        always {
+            script {
+                def buildStatus=currentBuild.currentResult
+                def colorCode
+                if (buildStatus == 'STARTED') {colorCode = '#FFFF00'}
+                else if (buildStatus == 'SUCCESS') {colorCode = '#2EB886'}
+                else {colorCode = '#FF0000'}
+                println "Current build result: "+currentBuild.currentResult;
+                allure includeProperties: false, jdk: '', results: [[path: 'results']]
+                // archiveArtifacts artifacts: '/build/allure-results/.png,**/build/allure-results/.json,/target/,//timingReport.csv,/test-results//*.xml', followSymlinks: false, allowEmptyArchive: true
+                def summary=junit(allowEmptyResults: true, skipMarkingBuildUnstable: true, testResults: 'results/xml_reports/*.xml')
+                 if (summary.failCount>0){
+                     colorCode = '#DAA038'
+                 }
+                 if (summary.totalCount>0){
+                          currentBuild.displayName = "#${env.BUILD_NUMBER} - ${summary.totalCount} (${summary.passCount*100/summary.totalCount}% pass)"
+                  }else{
+                    currentBuild.displayName = "#${env.BUILD_NUMBER}"
+                    }
+                 currentBuild.description = "Triggered by <a href=\"${params.trigger}\">Azure DevOps build</a>"
+
+                println "Current JUNIT result: "+summary;
+               if (!env.JOB_NAME.contains("dry"))
+               {
+                    slackSend(channel: "#qa-automation", color: colorCode, tokenCredentialId: "slack-bot",
+                     message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${buildStatus} after ${currentBuild.durationString.replace(' and counting', '')} (<${env.BUILD_URL}|Open>)\n Test Summary - ${summary.totalCount}, Failures: ${summary.failCount}, Skipped: ${summary.skipCount}, Passed: ${summary.passCount}")
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,221 @@
+
+
+variables:
+  - template: azure-vars.yml
+  - name: jjobname
+    value: as1-at-acms
+  - name: resultsStorage
+    value: C:/jenkins/share/as1-at-web-acms
+  - name: addParametersDefault
+    value: " "
+
+parameters:
+  - name: customCommitSHA
+    type: string
+    default: " "
+  - name: runDescription
+    type: string
+    default: "ATC AT"
+  - name: featuresPath
+    type: string
+    default: "ACMS/features"
+  - name: tags
+    type: string
+    default: '--tags @atc --tags "not @skip" --tags "not @obsolete"'
+  - name: scenarioName
+    type: string
+    default: " "
+  - name: environment
+    type: string
+    default: automation
+    values:
+      - automation
+  - name: browser
+    type: string
+    default: chrome
+    values:
+      - chrome
+      - edge
+  - name: rakeTask
+    type: string
+    default:  acms_at_full
+    values:
+      - acms_at_full
+      - acms_at_parallel_full
+      - acms_at_setup
+  - name: retries
+    type: number
+    default: 2
+  - name: threads
+    type: number
+    default: 1
+  - name: headless
+    type: boolean
+    default: false
+  - name: dryRun
+    type: boolean
+    default: false
+  - name: gridIP
+    type: string
+    default: 20.88.170.33
+  - name: useGrid
+    type: boolean
+    default: false
+  - name: additionalOptions
+    type: string
+    default: " "
+  - name: testRailRunID
+    type: string
+    default: " "
+  - name: exportToTestRails
+    type: boolean
+    default: false
+  - name: overwriteSameTestRailResults
+    type: boolean
+    default: false
+  - name: getExecutionCandidateFromTR
+    type: boolean
+    default: false
+  - name: executeOnlyNonExecuted
+    type: boolean
+    default: false
+  - name: agent
+    displayName: agent
+    type: string
+    values:
+      - MACCL10
+    default: MACCL10
+
+name: "[$(Build.BuildId)] [${{parameters.runDescription}}] [env=${{parameters.environment}}; ${{parameters.browser}}]"
+trigger:
+  - none
+#- main
+
+jobs:
+  - job: utang_ACMS_AT
+    timeoutInMinutes: 3000
+    pool:
+      name: utang Home Office Mac Machines
+      demands: Agent.ComputerName -equals ${{ parameters.agent }}
+    steps:
+      - checkout: self
+      - ${{ if ne(parameters.customCommitSHA, ' ') }}:
+        - script: |
+            cd  $(projectPath)
+            git reset --hard ${{parameters.customCommitSHA}}
+            cd ..
+          name: CheckoutCustomSHA
+      - script: |
+          cd  $(projectPath)
+          bundle install
+          mkdir -p docs
+          mkdir -p docs/reports
+          rm -fr docs/reports/xml_reports/*
+        name: CheckoutAndFSPreparation
+      - ${{ if eq(parameters.getExecutionCandidateFromTR, true) }}:
+          - script: |
+              set  -x
+              rake tr_execution_candidates TR_EXECUTION=${{parameters.testRailRunID}} \
+                                           TR_NON_EXECUTED_ONLY=${{parameters.executeOnlyNonExecuted}} \
+                                          FEATURES_PATH='${{parameters.featuresPath}}' || true   
+              if [[ "${{parameters.rakeTask}}" =~ .*"parallel".* ]]
+              then
+                 rm -fr features_run
+                 while read p; do
+                   mkdir -p "features_run/$(dirname $p)" && cp $p "features_run/$p"
+                 done <tr_exec_candidates.txt
+                 rake ${{parameters.rakeTask}} \
+                              FEATURES_PATH=features_run/$(projectPath) DRY_RUN=${{parameters.dryRun}} TAGS='${{parameters.tags}}' SCENARIO_NAME='${{parameters.scenarioName}}' \
+                              ENVIRONMENT=${{parameters.environment}} BRANCH=${{parameters.branch}} APP_VERSION=${{parameters.appVersion}} \
+                              APP_BUILD=${{parameters.appBuild}} BROWSER=${{parameters.browser}} THREADS=${{parameters.threads}} \
+                              GRID_IP=${{parameters.gridIP}}  GRID=${{parameters.useGrid}} ADDITIONAL_OPTIONS="${{parameters.additionalOptions}}" \
+                              HEADLESS=${{parameters.headless}}  RETRIES=${{parameters.retries}}
+              else 
+                rake ${{parameters.rakeTask}} \
+                              FEATURES_PATH=@tr_exec_candidates.txt DRY_RUN=${{parameters.dryRun}} TAGS='${{parameters.tags}}' SCENARIO_NAME='${{parameters.scenarioName}}' \
+                              ENVIRONMENT=${{parameters.environment}} BRANCH=${{parameters.branch}} APP_VERSION=${{parameters.appVersion}} \
+                              APP_BUILD=${{parameters.appBuild}} BROWSER=${{parameters.browser}} THREADS=${{parameters.threads}} \
+                              GRID_IP=${{parameters.gridIP}}  GRID=${{parameters.useGrid}} ADDITIONAL_OPTIONS="${{parameters.additionalOptions}}" \
+                              HEADLESS=${{parameters.headless}}  RETRIES=${{parameters.retries}}
+              fi
+            name: TestsExecutionTRCandidates
+      - ${{ if eq(parameters.getExecutionCandidateFromTR, false) }}:
+          - script: |
+              cd $(projectPath) && rake reset && set -x&& rake ${{parameters.rakeTask}} \
+              FEATURES_PATH='${{parameters.featuresPath}}' DRY_RUN=${{parameters.dryRun}} TAGS='${{parameters.tags}}' SCENARIO_NAME='${{parameters.scenarioName}}' \
+              ENVIRONMENT=${{parameters.environment}} BROWSER=${{parameters.browser}} \
+              GRID_IP=${{parameters.gridIP}}  GRID=${{parameters.useGrid}} ADDITIONAL_OPTIONS="${{parameters.additionalOptions}}" \
+              HEADLESS=${{parameters.headless}}  RETRIES=${{parameters.retries}}
+            name: TestsExecution
+      - script:  rake clear_xunit_duplicated
+        name: ReplaceDuplicatedResults
+      - script: |
+          set  -x
+          build_number=`curl -s --request GET '$(jenkinsBaseURL)/job/$(jjobname)/api/json?pretty=true' $(jenkinsSecret) | grep "nextBuildNumber" | awk '{print $3}' | sed 's/,//'`
+          allure_url=$(allureBaseURL)/allure/$(Build.DefinitionName)/$(Build.BuildId)
+          jenkins_build_url=$(jenkinsBaseURL)/job/$(jjobname)/$build_number
+          echo "<html><body>\
+          <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$allure_url\">$allure_url</a><br/>\
+          <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$jenkins_build_url\">Allure Trend</a>
+          </body></html>" > ./$(projectPath)/docs/reports/allure_reference.html
+        name: PrepareAllureReportReference
+      #    - script: python --version && python -c "from allure_combine import combine_allure; combine_allure('./$(projectPath)/docs/allure-report')"
+      #      name: AggregateAllureReport
+      - ${{ if eq(parameters.exportToTestRails, true) }}:
+          - script: |
+              set  -x
+              cd $(projectPath) && rake export_tr \
+              ENVIRONMENT=${{parameters.environment}} BRANCH=${{parameters.branch}} APP_VERSION=${{parameters.appVersion}} \
+              APP_BUILD=${{parameters.appBuild}} BROWSER=${{parameters.browser}} \
+              TR_EXECUTION=${{parameters.testRailRunID}} TR_OVERWRITE=${{parameters.overwriteSameTestRailResults}} || true
+            name: PostResultsToTestRail
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+          testResultsFiles: "docs/reports/xml_reports/TEST-*.xml"
+          mergeTestResults: true
+          testRunTitle: 'utang WebClient test automation result'
+      - task: PublishAllureReport@1
+        condition: succeededOrFailed()
+        displayName: Publish Allure Reports
+        inputs:
+          reportDir: "$(Build.SourcesDirectory)/docs/allure-report"
+      - task: CopyFiles@2
+        displayName: 'Copy all test results to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          Contents: |
+            *.txt
+            **/allure/**/*.*
+            **/reports/**/*.*
+            **/allure-report/**/*.*
+            **/reports_parallel/**/*.*
+          SourceFolder: $(projectPath)
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - script: |
+          set  -x
+          scp -r $(Build.ArtifactStagingDirectory)/docs/allure $(resultsStorageAddress):$(resultsStorage)
+          scp -r $(Build.ArtifactStagingDirectory)/docs/reports/xml_reports $(resultsStorageAddress):$(resultsStorage)
+          echo curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) \
+          --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab
+         
+          curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) \
+          --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab || true
+        name: PostResultsToATJenkins
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'artifacts'
+      - task: PublishHtmlReport@1
+        inputs:
+          tabName: 'Allure Report Reference'
+          reportDir: '$(projectPath)/docs/reports/allure_reference.html'
+
+    displayName: 'Run utang ATC test automation'
+
+
+

@@ -1,0 +1,107 @@
+name: $(Build.BuildId)-${{parameters.as1Version}}
+
+resources:
+  repositories:
+    - repository: as1-ios
+      type: github
+      endpoint: GitHub
+      name: utangTech/ios-as1
+      ref: release/${{parameters.as1Version}}
+
+trigger:
+  - none
+
+pool:
+  name: utang Home Office Mac Machines
+  demands: Agent.Name -equals MACCL10
+
+parameters:
+  - name: iOSBinariesStorage
+    type: string
+    default: /Users/qaautomation/AS1-iOS-binaries
+
+  - name: as1Version
+    type: string
+    default: 6.10.4
+    values:
+      - 6.10.4
+      - 6.10.3
+      - 6.10.2
+      - 6.10.0
+  - name: as1BuildNumber
+    type: string
+    default: 99999
+  - name: scheme
+    type: string
+    default: One QA
+    values:
+      - One QA
+      - One_Enterprise
+      - utang
+  - name: iosVersion
+    type: object
+    default:
+      - "15.0"
+      - "14.4"
+      - "16.0"
+      - "16.2"
+    values:
+      - 15.0
+      - 14.4
+      - 16.0
+      - 16.2
+
+  - name: deviceTypes
+    type: object
+    default:
+      - iPhone X
+      - iPhone Xr
+      - iPad Pro (12.9-inch) (5th generation)
+      - iPhone 14
+    values:
+      - iPhone X
+      - iPhone Xr
+      - iPad Pro (12.9-inch) (5th generation)
+      - iPhone 14
+
+jobs:
+  - ${{ each iOSVersion in parameters.iosVersion }}:
+      - ${{ each deviceType in parameters.deviceTypes }}:
+          - job: ${{ replace(replace(replace(replace(replace(replace(replace(format('iOS{0}{1}', iOSVersion, deviceType), '''', '_'), ' ', '_'),'"','_'), '(', '_'), ')', '_'), '.', '_'), '-', '_') }}
+            displayName: ${{ format('iOS {0} {1} (AS1 v{2})', iOSVersion, deviceType, parameters.as1Version )}}
+            variables:
+              - name: variant
+                value: ${{ format('{0}-{1}', deviceType, iOSVersion) }}
+              - name: device
+                value: ${{ deviceType }}
+              - name: simDeviceType
+                value: ${{ format('com.apple.CoreSimulator.SimDeviceType.{0}', deviceType) }}
+              - name: simRuntime
+                value: ${{ format('com.apple.CoreSimulator.SimRuntime.iOS-{0}', iOSVersion) }}
+              - name: sdk
+                value: ${{ format('iphonesimulator', iOSVersion) }}
+              - name: iOSVersion
+                value: ${{ iOSVersion }}
+              - name: platformVersion
+                ${{ if in(iOSVersion,'16','15') }}:
+                  value: "${{ iOSVersion }}.0"
+                ${{ else }}:
+                  value: "${{ iOSVersion }}"
+              - name: iOSBinaryPath
+                value: ${{parameters.iOSBinariesStorage}}/${{parameters.as1Version}}/$(platformVersion)/${{replace(replace(replace(deviceType,' ','_'),')',''),'(','')}}
+              - name: destination
+                value: "platform=iOS Simulator,OS=$(platformVersion),name=${{ deviceType }}"
+
+            steps:
+              - checkout: self
+              - checkout: as1-ios
+                fetchDepth: 1
+                displayName: Checkout as1-ios
+
+              - script: |
+                  set -x
+                  sudo chmod 777 as1-at/_pipelines/ios_build/ios_build.sh
+                  cd ios-as1
+                  sh ../as1-at/_pipelines/ios_build/ios_build.sh $(platformVersion) "${{ deviceType }}" ${{parameters.as1Version}} ${{parameters.iOSBinariesStorage}} "${{parameters.scheme}}" $(sdk)
+                displayName: Build
+                continueOnError: true

@@ -1,0 +1,87 @@
+{
+  "General": {
+    "Description": "Prolonged names flight plan configuration",
+    "IsJsonSetup": true,
+    "ClearDatabase": true,
+    "ResetFlightManager": true,
+    "ClearAlarms": true,
+    "WriteOutputToFile": true,
+    "OutputFile": "c:\\temp\\test_output.txt"
+  },
+  "Enterprise": {
+    "Id": "Enterprise1", "Name": "Enterprise1",
+    "Facilities": [
+      {
+        "Id": "Facility1111111111111111111111111111111", "Name": "Facility1111111111111111111111111111111",
+        "Units": [
+          {
+            "Id": "ICU333333333333333333333", "Name": "ICU333333333333333333333",
+            "Aliases": [ { "Alias": "ICU3" } ],
+            "Rooms": [
+              {
+                "Id": "ICU3-1", "Name": "ICU3", "Aliases": [ { "Alias": "ICU3" } ], "Addresses": [ "ICU3-Address" ],
+                "Beds": [
+                  {"Id": "B89000000000000000000000", "Name": "B89000000000000000000000", "Aliases": [ { "Alias": "B890" } ], "Addresses": [ "B890-Address" ]},
+                  {"Id": "B9999999999999", "Name": "B999", "Aliases": [ { "Alias": "B999" } ], "Addresses": [ "B999-Address" ]}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "SoftKeys": [
+    {"Id": "Key1", "SendChoice": "Yes", "ReplyChoice": "Accept", "IsAccept": true},
+    {"Id": "Key2", "SendChoice": "No", "ReplyChoice": "Escalate", "IsEscalate": true},
+    {"Id": "Key3", "SendChoice": "Cancel", "ReplyChoice": "View", "IsEscalate": true}
+  ],
+  "Priorities": [
+    {"Id": "HIGH", "label": "HIGH", "priorityLevel": "HIGH", "isUrgent": true},
+    {"Id": "MEDIUM", "label": "MEDIUM", "priorityLevel": "MEDIUM"},
+    {"Id": "LOW", "label": "LOW", "priorityLevel": "LOW"}
+  ],
+  "Destinations": [
+    {"Id": "Destination1_SingleRec_tc09_loooooooooooooooooooooooooooooooooong", "Name": "Destination1_SingleRec", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc09_loooooooooooooooooooooooooooooooooong", "Name": "Destination2_SingleRec", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"}
+  ],
+  "Recipients": [
+    {"Id": "Test_Rec1_tc09", "Address": "autoacept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc09", "Address": "autoignore", "AddressContext" : "DEFAULT"}
+  ],
+  "Assignments": {
+    "Name": "Assignments1",
+    "assignmentRecords": [
+      {"DestinationId": "Destination1_SingleRec_tc09_loooooooooooooooooooooooooooooooooong", "LocationId": "B89000000000000000000000", "RecipientId": "Test_Rec1_tc09"},
+      {"DestinationId": "Destination2_SingleRec_tc09_loooooooooooooooooooooooooooooooooong", "LocationId": "B89000000000000000000000", "RecipientId": "Test_Rec2_tc09"}
+    ]
+  },
+  "FlightPlan": {
+    "Id": "Prolonged_names_flight_plan",
+    "FlightPlanRecords": [
+      {"Id": "Prolonged_names_flight_record", "AlarmType": "Prolonged_names_alarm_string", "UserTriage": true, "AlarmTypeStrings": [ "Prolonged_names_alarm_string" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09_loooooooooooooooooooooooooooooooooong"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09_loooooooooooooooooooooooooooooooooong"]}
+        ]
+      },
+      {"Id": "Prolonged_names_flight_record_delayed", "AlarmType": "Prolonged_names_alarm_string_delayed", "UserTriage": true, "AlarmTypeStrings": [ "Prolonged_names_alarm_string_delayed" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:30",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09_loooooooooooooooooooooooooooooooooong"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09_loooooooooooooooooooooooooooooooooong"]}
+        ]
+      }
+    ],
+    "Units": [{ "Id": "ICU333333333333333333333" }]
+  },
+  "Actions": [
+    {
+      "ActionName": "RefreshCaches",
+      "Description": "RefreshCaches"
+    }
+  ]
+}

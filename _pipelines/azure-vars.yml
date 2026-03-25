@@ -1,0 +1,13 @@
+variables:
+  - name: resultsStorageAddress
+    value: ehraichonak@10.106.5.18
+  - name: jobTimeout
+    value: 3000
+  - name: projectPath
+    value: .
+  - name: jenkinsBaseURL
+    value: http://10.106.5.18:8090
+  - name: allureBaseURL
+    value: http://10.106.5.18
+  - name: jenkinsSecret
+    value: --user admin:11f78d2d7ec0822f26658e985528ec46da

@@ -1,0 +1,764 @@
+{
+  "General": {
+    "Description": "Configuration for TestAutomation",
+    "IsJsonSetup": true, "ClearDatabase": true, "ResetFlightManager": true, "ClearAlarms": false, "WriteOutputToFile": true,
+    "OutputFile": "c:\\temp\\test_output.txt"
+  },
+  "Enterprise": {
+    "Id": "Enterprise1", "Name": "Enterprise1",
+    "Facilities": [
+      {
+        "Id": "Facility1", "Name": "Facility1",
+        "Units": [
+          {
+            "Id": "ICU3", "Name": "ICU3",
+            "Aliases": [ { "Alias": "ICU3" } ],
+            "Rooms": [
+              {
+                "Id": "ICU3-1", "Name": "ICU3", "Aliases": [ { "Alias": "ICU3" } ], "Addresses": [ "ICU3-Address" ],
+                "Beds": [
+                  {"Id": "B890", "Name": "B890", "Aliases": [ { "Alias": "B890" } ], "Addresses": [ "B890-Address" ]},
+                  {"Id": "B999", "Name": "B999", "Aliases": [ { "Alias": "B999" } ], "Addresses": [ "B999-Address" ]}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "SoftKeys": [
+    {"Id": "Key1", "SendChoice": "Yes", "ReplyChoice": "Accept", "IsAccept": true},
+    {"Id": "Key2", "SendChoice": "No", "ReplyChoice": "Escalate", "IsEscalate": true},
+    {"Id": "Key3", "SendChoice": "Cancel", "ReplyChoice": "View", "IsEscalate": true}
+  ],
+  "Priorities": [
+    {"Id": "HIGH", "label": "HIGH", "priorityLevel": "HIGH", "isUrgent": true},
+    {"Id": "MEDIUM", "label": "MEDIUM", "priorityLevel": "MEDIUM"},
+    {"Id": "LOW", "label": "LOW", "priorityLevel": "LOW"}
+  ],
+  "Destinations": [
+    {"Id": "Destination1_SingleRec", "Name": "Destination1_SingleRec", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec", "Name": "Destination2_SingleRec", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination3_SingleRec", "Name": "Destination3_SingleRec", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "AT_Dest_Ignore_Rec", "Name": "AT_Dest_Ignore_Rec", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "AT_Dest_Escalate_Rec", "Name": "AT_Dest_Escalate_Rec", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "AT_Dest_Accept_Rec", "Name": "AT_Dest_Accept_Rec", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "AT_Dest_Invalid_Rec", "Name": "AT_Dest_Invalid_Rec", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc01a", "Name": "Destination1_SingleRec_tc01a", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc01a", "Name": "Destination2_SingleRec_tc01a", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination3_SingleRec_tc01a", "Name": "Destination3_SingleRec_tc01a", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination1_SingleRec_tc01b", "Name": "Destination1_SingleRec_tc01b", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc01b", "Name": "Destination2_SingleRec_tc01b", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination3_SingleRec_tc01b", "Name": "Destination3_SingleRec_tc01b", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination1_MultRec_tc02", "Name": "Destination1_MultRec_tc02", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_MultRec_tc02", "Name": "Destination2_MultRec_tc02", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination3_MultRec_tc02", "Name": "Destination3_MultRec_tc02", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination1_SingleRec_tc03", "Name": "Destination1_SingleRec_tc03", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc04", "Name": "Destination1_SingleRec_tc04", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc04", "Name": "Destination2_SingleRec_tc04", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination3_SingleRec_tc04", "Name": "Destination3_SingleRec_tc04", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc05", "Name": "Destination1_SingleRec_tc05", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc06", "Name": "Destination1_SingleRec_tc06", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc07", "Name": "Destination1_SingleRec_tc07", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc08", "Name": "Destination1_SingleRec_tc08", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc09", "Name": "Destination1_SingleRec_tc09", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc09", "Name": "Destination2_SingleRec_tc09", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc11", "Name": "Destination1_SingleRec_tc11", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc11", "Name": "Destination2_SingleRec_tc11", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc12", "Name": "Destination1_SingleRec_tc12", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc13", "Name": "Destination1_SingleRec_tc13", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc13", "Name": "Destination2_SingleRec_tc13", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination3_SingleRec_tc13", "Name": "Destination3_SingleRec_tc13", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination1_SingleRec_tc14", "Name": "Destination1_SingleRec_tc14", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc14", "Name": "Destination2_SingleRec_tc14", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination3_SingleRec_tc14", "Name": "Destination3_SingleRec_tc14", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination1_SingleRec_tc15", "Name": "Destination1_SingleRec_tc15", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc15", "Name": "Destination2_SingleRec_tc15", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc17", "Name": "Destination1_SingleRec_tc17", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc17", "Name": "Destination2_SingleRec_tc17", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc18", "Name": "Destination1_SingleRec_tc18", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc18", "Name": "Destination2_SingleRec_tc18", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc19", "Name": "Destination1_SingleRec_tc19", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc19", "Name": "Destination2_SingleRec_tc19", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination3_SingleRec_tc19", "Name": "Destination3_SingleRec_tc19", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc20a", "Name": "Destination1_SingleRec_tc20a", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc20a", "Name": "Destination2_SingleRec_tc20a", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination3_SingleRec_tc20a", "Name": "Destination3_SingleRec_tc20a", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc20b", "Name": "Destination1_SingleRec_tc20b", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc20b", "Name": "Destination2_SingleRec_tc20b", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination3_SingleRec_tc20b", "Name": "Destination3_SingleRec_tc20b", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc21a", "Name": "Destination1_SingleRec_tc21a", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc21a", "Name": "Destination2_SingleRec_tc21a", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination3_SingleRec_tc21a", "Name": "Destination3_SingleRec_tc21a", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc21b", "Name": "Destination1_SingleRec_tc21b", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc21b", "Name": "Destination2_SingleRec_tc21b", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination3_SingleRec_tc21b", "Name": "Destination3_SingleRec_tc21b", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc22", "Name": "Destination1_SingleRec_tc22", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc22", "Name": "Destination2_SingleRec_tc22", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination3_SingleRec_tc22", "Name": "Destination3_SingleRec_tc22", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc23", "Name": "Destination1_SingleRec_tc23", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc23", "Name": "Destination2_SingleRec_tc23", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination3_SingleRec_tc23", "Name": "Destination3_SingleRec_tc23", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc05_multi", "Name": "Destination1_SingleRec_tc05_multi", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination1_SingleRec_tc05_multi_accept", "Name": "Destination1_SingleRec_accept", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"}
+
+  ],
+  "Recipients": [
+    {"Id": "RN", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Buddy RN", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "Charge RN", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "AT Ignore Responder", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "AT Escalate Responder", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "AT Accept Responder", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "AT Invalid Responder", "Address": "autoinvalid", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc01a", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc01a", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc01a", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc01b", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc01b", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc01b", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec4_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec5_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec6_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc03", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc04", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc04", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc04", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc05", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc06", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc07", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc08", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc09", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc09", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc11", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc11", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc12", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc13", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc13", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc13", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "TestRec_1_tc14", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "TestRec_2_tc14", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "TestRec_3_tc14", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc15", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc15", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc17", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc17", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc18", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc18", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc19", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc19", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc19", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc20a", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc20a", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc20a", "Address": "autoescalate", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc20b", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc20b", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc20b", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc21a", "Address": "manual", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc21a", "Address": "manual", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc21a", "Address": "manual", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc21b", "Address": "manual", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc21b", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc21b", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc22", "Address": "manual", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc23", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc23", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc23", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc05_multi", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec1_tc05_multi_accept", "Address": "autoaccept", "AddressContext" : "DEFAULT"}
+  ],
+  "Assignments": {
+    "Name": "Assignments1",
+    "assignmentRecords": [
+      {"DestinationId": "Destination1_SingleRec", "LocationId": "B890", "RecipientId": "RN"},
+      {"DestinationId": "Destination2_SingleRec", "LocationId": "B890", "RecipientId": "Buddy RN"},
+      {"DestinationId": "Destination3_SingleRec", "LocationId": "B890", "RecipientId": "Charge RN"},
+      {"DestinationId": "AT_Dest_Ignore_Rec", "LocationId": "B890", "RecipientId": "AT Ignore Responder"},
+      {"DestinationId": "AT_Dest_Escalate_Rec", "LocationId": "B890", "RecipientId": "AT Escalate Responder"},
+      {"DestinationId": "AT_Dest_Accept_Rec", "LocationId": "B890", "RecipientId": "AT Accept Responder"},
+      {"DestinationId": "AT_Dest_Invalid_Rec", "LocationId": "B890", "RecipientId": "AT Invalid Responder"},
+      {"DestinationId": "Destination1_SingleRec_tc01a", "LocationId": "B890", "RecipientId": "Test_Rec1_tc01a"},
+      {"DestinationId": "Destination2_SingleRec_tc01a", "LocationId": "B890", "RecipientId": "Test_Rec2_tc01a"},
+      {"DestinationId": "Destination3_SingleRec_tc01a", "LocationId": "B890", "RecipientId": "Test_Rec3_tc01a"},
+      {"DestinationId": "Destination1_SingleRec_tc01b", "LocationId": "B890", "RecipientId": "Test_Rec1_tc01b"},
+      {"DestinationId": "Destination2_SingleRec_tc01b", "LocationId": "B890", "RecipientId": "Test_Rec2_tc01b"},
+      {"DestinationId": "Destination3_SingleRec_tc01b", "LocationId": "B890", "RecipientId": "Test_Rec3_tc01b"},
+      {"DestinationId": "Destination1_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec1_tc02"},
+      {"DestinationId": "Destination1_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec2_tc02"},
+      {"DestinationId": "Destination2_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec3_tc02"},
+      {"DestinationId": "Destination2_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec4_tc02"},
+      {"DestinationId": "Destination3_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec5_tc02"},
+      {"DestinationId": "Destination3_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec6_tc02"},
+      {"DestinationId": "Destination1_SingleRec_tc03", "LocationId": "B890", "RecipientId": "Test_Rec1_tc03"},
+      {"DestinationId": "Destination1_SingleRec_tc04", "LocationId": "B890", "RecipientId": "Test_Rec1_tc04"},
+      {"DestinationId": "Destination2_SingleRec_tc04", "LocationId": "B890", "RecipientId": "Test_Rec2_tc04"},
+      {"DestinationId": "Destination3_SingleRec_tc04", "LocationId": "B890", "RecipientId": "Test_Rec3_tc04"},
+      {"DestinationId": "Destination1_SingleRec_tc05", "LocationId": "B890", "RecipientId": "Test_Rec1_tc05"},
+      {"DestinationId": "Destination1_SingleRec_tc06", "LocationId": "B890", "RecipientId": "Test_Rec1_tc06"},
+      {"DestinationId": "Destination1_SingleRec_tc07", "LocationId": "B890", "RecipientId": "Test_Rec1_tc07"},
+      {"DestinationId": "Destination1_SingleRec_tc08", "LocationId": "B890", "RecipientId": "Test_Rec1_tc08"},
+      {"DestinationId": "Destination1_SingleRec_tc09", "LocationId": "B890", "RecipientId": "Test_Rec1_tc09"},
+      {"DestinationId": "Destination2_SingleRec_tc09", "LocationId": "B890", "RecipientId": "Test_Rec2_tc09"},
+      {"DestinationId": "Destination1_SingleRec_tc11", "LocationId": "B890", "RecipientId": "Test_Rec1_tc11"},
+      {"DestinationId": "Destination2_SingleRec_tc11", "LocationId": "B890", "RecipientId": "Test_Rec2_tc11"},
+      {"DestinationId": "Destination1_SingleRec_tc12", "LocationId": "B890", "RecipientId": "Test_Rec1_tc12"},
+      {"DestinationId": "Destination1_SingleRec_tc13", "LocationId": "B890", "RecipientId": "Test_Rec1_tc13"},
+      {"DestinationId": "Destination2_SingleRec_tc13", "LocationId": "B890", "RecipientId": "Test_Rec2_tc13"},
+      {"DestinationId": "Destination3_SingleRec_tc13", "LocationId": "B890", "RecipientId": "Test_Rec3_tc13"},
+      {"DestinationId": "Destination1_SingleRec_tc14", "LocationId": "B890", "RecipientId": "TestRec_1_tc14"},
+      {"DestinationId": "Destination2_SingleRec_tc14", "LocationId": "B890", "RecipientId": "TestRec_2_tc14"},
+      {"DestinationId": "Destination1_SingleRec_tc14", "LocationId": "B890", "RecipientId": "TestRec_3_tc14"},
+      {"DestinationId": "Destination1_SingleRec_tc15", "LocationId": "B890", "RecipientId": "Test_Rec1_tc15"},
+      {"DestinationId": "Destination2_SingleRec_tc15", "LocationId": "B890", "RecipientId": "Test_Rec2_tc15"},
+      {"DestinationId": "Destination1_SingleRec_tc17", "LocationId": "B890", "RecipientId": "Test_Rec1_tc17"},
+      {"DestinationId": "Destination2_SingleRec_tc17", "LocationId": "B890", "RecipientId": "Test_Rec2_tc17"},
+      {"DestinationId": "Destination1_SingleRec_tc18", "LocationId": "B890", "RecipientId": "Test_Rec1_tc18"},
+      {"DestinationId": "Destination2_SingleRec_tc18", "LocationId": "B890", "RecipientId": "Test_Rec2_tc18"},
+      {"DestinationId": "Destination1_SingleRec_tc19", "LocationId": "B890", "RecipientId": "Test_Rec1_tc19"},
+      {"DestinationId": "Destination2_SingleRec_tc19", "LocationId": "B890", "RecipientId": "Test_Rec2_tc19"},
+      {"DestinationId": "Destination3_SingleRec_tc19", "LocationId": "B890", "RecipientId": "Test_Rec3_tc19"},
+      {"DestinationId": "Destination1_SingleRec_tc20a", "LocationId": "B890", "RecipientId": "Test_Rec1_tc20a"},
+      {"DestinationId": "Destination2_SingleRec_tc20a", "LocationId": "B890", "RecipientId": "Test_Rec2_tc20a"},
+      {"DestinationId": "Destination3_SingleRec_tc20a", "LocationId": "B890", "RecipientId": "Test_Rec3_tc20a"},
+      {"DestinationId": "Destination1_SingleRec_tc20b", "LocationId": "B890", "RecipientId": "Test_Rec1_tc20b"},
+      {"DestinationId": "Destination2_SingleRec_tc20b", "LocationId": "B890", "RecipientId": "Test_Rec2_tc20b"},
+      {"DestinationId": "Destination3_SingleRec_tc20b", "LocationId": "B890", "RecipientId": "Test_Rec3_tc20b"},
+      {"DestinationId": "Destination1_SingleRec_tc21a", "LocationId": "B890", "RecipientId": "Test_Rec1_tc21a"},
+      {"DestinationId": "Destination2_SingleRec_tc21a", "LocationId": "B890", "RecipientId": "Test_Rec2_tc21a"},
+      {"DestinationId": "Destination3_SingleRec_tc21a", "LocationId": "B890", "RecipientId": "Test_Rec3_tc21a"},
+      {"DestinationId": "Destination1_SingleRec_tc21b", "LocationId": "B890", "RecipientId": "Test_Rec1_tc21b"},
+      {"DestinationId": "Destination2_SingleRec_tc21b", "LocationId": "B890", "RecipientId": "Test_Rec2_tc21b"},
+      {"DestinationId": "Destination3_SingleRec_tc21b", "LocationId": "B890", "RecipientId": "Test_Rec3_tc21b"},
+      {"DestinationId": "Destination1_SingleRec_tc22", "LocationId": "B890", "RecipientId": "Test_Rec1_tc22"},
+      {"DestinationId": "Destination1_SingleRec_tc23", "LocationId": "B890", "RecipientId": "Test_Rec1_tc23"},
+      {"DestinationId": "Destination2_SingleRec_tc23", "LocationId": "B890", "RecipientId": "Test_Rec2_tc23"},
+      {"DestinationId": "Destination3_SingleRec_tc23", "LocationId": "B890", "RecipientId": "Test_Rec3_tc23"},
+      {"DestinationId": "Destination1_SingleRec_tc05_multi", "LocationId": "B890", "RecipientId": "Test_Rec1_tc05_multi"},
+      {"DestinationId": "Destination1_SingleRec_tc05_multi_accept", "LocationId": "B890", "RecipientId": "Test_Rec1_tc05_multi_accept"}
+
+    ]
+  },
+  "FlightPlan": {
+    "Id": "FlightPlanAT_Aggregated",
+    "FlightPlanRecords": [
+      {
+        "Id": "FlightPlanRecord1_tc01a",
+        "AlarmType": "TC01a_Alarm", "UserTriage": true,  "AlarmTypeStrings": [ "TC01a_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00",
+        "DelayOnAccept": "00:00:10", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination1_SingleRec_tc01a"]},
+          {"Level": 2, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination2_SingleRec_tc01a"]},
+          {"Level": 3, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination3_SingleRec_tc01a"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc01b", "AlarmType": "TC01b_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC01b_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:10", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination1_SingleRec_tc01b"]},
+          {"Level": 2, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination2_SingleRec_tc01b"]},
+          {"Level": 3, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination3_SingleRec_tc01b"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc01c", "AlarmType": "TC01c_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC01c_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:45", "DestinationIds": []},
+          {"Level": 2, "EscalationInterval": "00:00:45", "DestinationIds": []},
+          {"Level": 3, "EscalationInterval": "00:00:45", "DestinationIds": []}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc02", "AlarmType": "TC02_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC02_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:10", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:40", "DestinationIds": ["Destination1_MultRec_tc02"]},
+          {"Level": 2, "EscalationInterval": "00:00:40", "DestinationIds": ["Destination2_MultRec_tc02"]},
+          {"Level": 3, "EscalationInterval": "00:00:40", "DestinationIds": ["Destination3_MultRec_tc02"]
+          }
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc03", "AlarmType": "TC03_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC03_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:07",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc03"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc04", "AlarmType": "TC04_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC04_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc04"]},
+          {"Level": 2, "EscalationInterval": "00:00:20", "DestinationIds": ["Destination2_SingleRec_tc04"]},
+          {"Level": 3, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination3_SingleRec_tc04"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc05", "AlarmType": "TC05_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC05_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:20", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc05"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc06", "AlarmType": "TC06_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC06_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:20", "DelayOnAccept": "00:00:10", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc06"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc07", "AlarmType": "TC07_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC07_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:25", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc07"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc08", "AlarmType": "TC08_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC08_Alarm" ],
+        "SuspendInterval": "00:00:25", "AutoCancelTimeSpan": "00:00:10", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc08"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09", "AlarmType": "TC09_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC09_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc11", "AlarmType": "TC11_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC11_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:30",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc11"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc11"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc12", "AlarmType": "TC12_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC12_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:30", "DestinationIds": ["Destination1_SingleRec_tc12"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc13", "AlarmType": "TC13_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC13_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:10", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:30", "DestinationIds": ["Destination1_SingleRec_tc13"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination2_SingleRec_tc13"]},
+          {"Level": 3, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination3_SingleRec_tc13"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc14", "AlarmType": "TC14_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC14_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:10", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:30", "DestinationIds": ["Destination1_SingleRec_tc14"]},
+          {"Level": 2, "EscalationInterval": "00:02:00", "DestinationIds": ["Destination2_SingleRec_tc14"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc15", "AlarmType": "TC15_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC15_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc15"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination2_SingleRec_tc15"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc17", "AlarmType": "TC17_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC17_Alarm" ],
+        "SuspendInterval": "00:00:15", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:30",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:50", "DestinationIds": ["Destination1_SingleRec_tc17"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination2_SingleRec_tc17"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc18", "AlarmType": "TC18_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC18_Alarm" ],
+        "SuspendInterval": "00:00:15", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:10", "CancellationSuspend": "00:00:40",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc18"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination2_SingleRec_tc18"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc19", "AlarmType": "TC19_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC19_Alarm" ],
+        "SuspendInterval": "00:00:15", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:10", "CancellationSuspend": "00:01:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc19"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination2_SingleRec_tc19"]},
+          {"Level": 3, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination3_SingleRec_tc19"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc20a", "AlarmType": "TC20a_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC20a_Alarm" ],
+        "SuspendInterval": "00:00:10", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination1_SingleRec_tc20a"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination2_SingleRec_tc20a"]},
+          {"Level": 3, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination3_SingleRec_tc20a"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc20b", "AlarmType": "TC20b_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC20b_Alarm" ],
+        "SuspendInterval": "00:00:15", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:30",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:30", "DestinationIds": ["Destination1_SingleRec_tc20b"]},
+          {"Level": 2, "EscalationInterval": "00:00:30", "DestinationIds": ["Destination2_SingleRec_tc20b"]},
+          {"Level": 3, "EscalationInterval": "00:00:30", "DestinationIds": ["Destination3_SingleRec_tc20b"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc21a", "AlarmType": "TC21a_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC21a_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:20", "CancellationSuspend": "00:01:30",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:50", "DestinationIds": ["Destination1_SingleRec_tc21a"]},
+          {"Level": 2, "EscalationInterval": "00:01:30", "DestinationIds": ["Destination2_SingleRec_tc21a"]},
+          {"Level": 3, "EscalationInterval": "00:01:30", "DestinationIds": ["Destination3_SingleRec_tc21a"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc21b", "AlarmType": "TC21b_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC21b_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:20", "CancellationSuspend": "00:01:30",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:50", "DestinationIds": ["Destination1_SingleRec_tc21b"]},
+          {"Level": 2, "EscalationInterval": "00:01:30", "DestinationIds": ["Destination2_SingleRec_tc21b"]},
+          {"Level": 3, "EscalationInterval": "00:01:30", "DestinationIds": ["Destination3_SingleRec_tc21b"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc22", "AlarmType": "TC22_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC22_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:10",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:20", "DestinationIds": ["Destination1_SingleRec_tc22"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc23", "AlarmType": "TC23_FlightDelay_Alarm_40", "UserTriage": true, "AlarmTypeStrings": [ "TC23_FlightDelay_Alarm_40" ],
+        "FlightDelayInterval": "00:00:40", "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00",
+        "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination1_SingleRec_tc23"]},
+          {"Level": 2, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination2_SingleRec_tc23"]},
+          {"Level": 3, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination3_SingleRec_tc23"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord2_tc23", "AlarmType": "TC23_FlightDelay_Alarm_Infinity", "UserTriage": true, "AlarmTypeStrings": [ "TC23_FlightDelay_Alarm_Infinity" ],
+        "FlightDelayInterval": null, "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00",
+        "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination1_SingleRec_tc23"]},
+          {"Level": 2, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination2_SingleRec_tc23"]},
+          {"Level": 3, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination3_SingleRec_tc23"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord3_tc23", "AlarmType": "TC23_FlightDelay_Alarm_Zero", "UserTriage": true, "AlarmTypeStrings": [ "TC23_FlightDelay_Alarm_Zero" ],
+        "FlightDelayInterval": "00:00:00", "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00",
+        "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination1_SingleRec_tc23"]},
+          {"Level": 2, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination2_SingleRec_tc23"]},
+          {"Level": 3, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination3_SingleRec_tc23"]}
+        ]
+      },
+      { "Id": "FlightPlanRecordAT0", "userTriage": true,
+        "AlarmType": "ATEVENT0","PriorityId": "High",
+        "AlarmTypeStrings": [ "ATEVENT0" ],
+        "SuspendInterval": "00:00:15", "AutoCancelTimeSpan": "00:01:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Ignore_Rec"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Escalate_Rec"]},
+          {"Level": 3, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Accept_Rec"]}
+        ]
+      },
+      { "Id": "FlightPlanRecordAT1", "userTriage": true,
+        "AlarmType": "ATEVENT1","PriorityId": "High",
+        "AlarmTypeStrings": [ "ATEVENT1" ],
+        "SuspendInterval": "00:00:01", "AutoCancelTimeSpan": "00:00:20", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:02",
+        "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Ignore_Rec"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Escalate_Rec"]},
+          {"Level": 3, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Accept_Rec"]}
+        ]
+      },
+      { "Id": "FlightPlanRecordAT2", "userTriage": true,
+        "AlarmType": "ATEVENT2","PriorityId": "High",
+        "AlarmTypeStrings": [ "ATEVENT2" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": null, "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Accept_Rec"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Ignore_Rec"]},
+          {"Level": 3, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Accept_Rec"]}
+        ]
+      },
+      { "Id": "FlightPlanRecordAT3", "userTriage": true,
+        "AlarmType": "ATEVENT3","PriorityId": "High",
+        "AlarmTypeStrings": [ "ATEVENT3" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": null, "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Escalate_Rec"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Accept_Rec"]},
+          {"Level": 3, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Accept_Rec"]}
+        ]
+      },
+      { "Id": "FlightPlanRecordAT4", "userTriage": true,
+        "AlarmType": "ATEVENT4","PriorityId": "High",
+        "AlarmTypeStrings": [ "ATEVENT4" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": null, "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:05", "DestinationIds": ["AT_Dest_Ignore_Rec"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Ignore_Rec"]},
+          {"Level": 3, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Ignore_Rec"]}
+        ]
+      },
+      { "Id": "FlightPlanRecordAT5", "userTriage": true,
+        "AlarmType": "ATEVENT5","PriorityId": "High",
+        "AlarmTypeStrings": [ "ATEVENT5" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:02:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:05", "DestinationIds": ["AT_Dest_Ignore_Rec"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["AT_Dest_Escalate_Rec"]},
+          {"Level": 3, "EscalationInterval": "00:00:30", "DestinationIds": ["AT_Dest_Accept_Rec"]}
+        ]
+      },
+
+      {"Id": "FlightPlanRecord1_tc23", "AlarmType": "TC23_FlightDelay_Alarm_40", "UserTriage": true, "AlarmTypeStrings": [ "TC23_FlightDelay_Alarm_40" ],
+        "FlightDelayInterval": "00:00:40", "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00",
+        "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination1_SingleRec_tc23"]},
+          {"Level": 2, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination2_SingleRec_tc23"]},
+          {"Level": 3, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination3_SingleRec_tc23"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord2_tc23", "AlarmType": "TC23_FlightDelay_Alarm_Infinity", "UserTriage": true, "AlarmTypeStrings": [ "TC23_FlightDelay_Alarm_Infinity" ],
+        "FlightDelayInterval": null, "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00",
+        "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination1_SingleRec_tc23"]},
+          {"Level": 2, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination2_SingleRec_tc23"]},
+          {"Level": 3, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination3_SingleRec_tc23"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord3_tc23", "AlarmType": "TC23_FlightDelay_Alarm_Zero", "UserTriage": true, "AlarmTypeStrings": [ "TC23_FlightDelay_Alarm_Zero" ],
+        "FlightDelayInterval": "00:00:00", "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00",
+        "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination1_SingleRec_tc23"]},
+          {"Level": 2, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination2_SingleRec_tc23"]},
+          {"Level": 3, "EscalationInterval": "00:00:45", "DestinationIds": ["Destination3_SingleRec_tc23"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc05_01", "AlarmType": "TC05_01_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC05_01_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]},
+          {"Level": 2, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc05_02", "AlarmType": "TC05_02_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC05_02_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]},
+          {"Level": 2, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc05_01_suspend", "AlarmType": "TC05_01_Alarm_Suspend", "UserTriage": true, "AlarmTypeStrings": [ "TC05_01_Alarm_Suspend" ],
+        "SuspendInterval": "00:00:05", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]}
+        ]
+      },{
+        "Id": "FlightPlanRecord1_tc05_02_suspend", "AlarmType": "TC05_02_Alarm_Suspend", "UserTriage": true, "AlarmTypeStrings": [ "TC05_02_Alarm_Suspend" ],
+        "SuspendInterval": "00:00:02", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc05_03", "AlarmType": "TC05_03_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC05_03_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]},
+          {"Level": 2, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]}
+        ]
+      },{
+        "Id": "FlightPlanRecord1_tc05_04", "AlarmType": "TC05_Alarm_Short", "UserTriage": true, "AlarmTypeStrings": [ "TC05_Alarm_Short" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:05", "DestinationIds": ["Destination1_SingleRec_tc05_multi_accept"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc05_low_01", "AlarmType": "TC05_Low_01_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC05_Low_01_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "Low", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]},
+          {"Level": 2, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc05_low_02", "AlarmType": "TC05_Low_02_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC05_Low_02_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "Low", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]},
+          {"Level": 2, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]}
+        ]
+      },{
+        "Id": "FlightPlanRecord1_tc05_low_03", "AlarmType": "TC05_Low_Alarm_Short", "UserTriage": true, "AlarmTypeStrings": [ "TC05_Low_Alarm_Short" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "Low", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:05", "DestinationIds": ["Destination1_SingleRec_tc05_multi_accept"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc05_medium_01", "AlarmType": "TC05_Medium_01_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC05_Medium_01_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "Medium", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]},
+          {"Level": 2, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]}
+        ]
+      },
+      {
+        "Id": "FlightPlanRecord1_tc05_medium_02", "AlarmType": "TC05_Medium_02_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC05_Medium_02_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "Medium", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]},
+          {"Level": 2, "EscalationInterval": "00:00:55", "DestinationIds": ["Destination1_SingleRec_tc05_multi"]}
+        ]
+      },{
+        "Id": "FlightPlanRecord1_tc05_medium_03", "AlarmType": "TC05_Medium_Alarm_Short", "UserTriage": true, "AlarmTypeStrings": [ "TC05_Medium_Alarm_Short" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "Medium", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:05", "DestinationIds": ["Destination1_SingleRec_tc05_multi_accept"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09_01", "AlarmType": "TC09_01_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC09_01_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09_02", "AlarmType": "TC09_02_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC09_02_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09_03", "AlarmType": "TC09_03_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC09_03_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09_04", "AlarmType": "TC09_04_Alarm_Ended", "UserTriage": true, "AlarmTypeStrings": [ "TC09_04_Alarm_Ended" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]}
+        ]
+      },
+       {"Id": "FlightPlanRecord1_tc09_05", "AlarmType": "TC09_05_Alarm_NoTriage", "UserTriage": false, "AlarmTypeStrings": [ "TC09_05_Alarm_NoTriage" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09_06", "AlarmType": "TC09_06_Alarm_WithProlongedMessage1234567890", "UserTriage": true, "AlarmTypeStrings": [ "TC09_06_Alarm_WithProlongedMessage1234567890 " ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09_low_01", "AlarmType": "TC09_Low_01_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC09_Low_01_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "Low", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09_low_02", "AlarmType": "TC09_Low_02_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC09_Low_02_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "Low", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09_medium_01", "AlarmType": "TC09_Medium_01_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC09_Medium_01_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "Medium", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09"]}
+        ]
+      },
+      {"Id": "FlightPlanRecord1_tc09_medium_02", "AlarmType": "TC09_Medium_02_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC09_Medium_02_Alarm" ],
+        "SuspendInterval": "00:00:30", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:20",
+        "PriorityId": "Medium", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination1_SingleRec_tc09"]},
+          {"Level": 2, "EscalationInterval": "00:01:00", "DestinationIds": ["Destination2_SingleRec_tc09"]}
+        ]
+      }
+    ],
+    "Units": [{ "Id": "ICU3" }]
+  },
+  "Actions": [
+    {
+      "ActionName": "RefreshCaches",
+      "Description": "RefreshCaches"
+    }
+  ]
+}

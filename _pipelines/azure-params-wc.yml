@@ -1,0 +1,4 @@
+parameters:
+  - name: additionalOptions
+    type: string
+    default: " PATIENT=\\\"Ohm, Georg\\\" CARDIO_PATIENT=\\\"Ohm, Georg\\\" NO_ECG_PATIENT=\\\"da Vinci, Leonardo\\\""

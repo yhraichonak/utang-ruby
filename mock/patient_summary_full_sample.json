@@ -1,0 +1,447 @@
+{
+  "responseCode": 0,
+  "model": {
+    "tiles": {
+      "demographics": {
+        "title": "GENERAL INFO",
+        "error": null,
+        "model": {
+          "fields": [
+            {
+              "label": "Weight",
+              "value": "72.7 kg"
+            },
+            {
+              "label": "Admit Date",
+              "value": "2/7/2016 6:44 AM"
+            },
+            {
+              "label": "Code Status",
+              "value": "1. Full Resuscitation"
+            },
+            {
+              "label": "Location",
+              "value": "5E CARDIO PMCW 567_A 01"
+            },
+            {
+              "label": "Isolation Status",
+              "value": null
+            },
+            {
+              "label": "FIN",
+              "value": "123456789"
+            },
+            {
+              "label": "DOB",
+              "value": "05/17/1946"
+            },
+            {
+              "label": "Religion",
+              "value": "No Preference"
+            },
+            {
+              "label": "Language",
+              "value": "ENG"
+            },
+            {
+              "label": "Primary Contact",
+              "value": "Elizabeth Blair 0008675309 (Business)"
+            },
+            {
+              "label": "Secondary Contact",
+              "value": "Ronald Blair 1234567890 (HOME)"
+            },
+            {
+              "label": "Age",
+              "value": "67"
+            },
+            {
+              "label": "Primary MD",
+              "value": "Skinner, James"
+            }
+          ]
+        }
+      },
+      "monitor": {
+        "title": "MONITOR",
+        "model": {
+          "eventData": [],
+          "status": "active",
+          "hours": 48,
+          "count": 0
+        }
+      },
+      "ecgs": {
+        "title": "ECGS",
+        "error": null,
+        "model": {
+          "count": 2,
+          "firstEcgId": 42816,
+          "legend": "",
+          "testlist": null
+        }
+      },
+      "images": {
+        "title": "IMAGES",
+        "error": null,
+        "model": {
+          "icon": "ic_images",
+          "count": 16,
+          "launch_context": {
+            "url": "resmds://ord1.demo.calgaryscientific.com:80/studylist?DicomRepository=PACS3_VNA_Cloud&PatientID=73366789&username=guest&password=guest&returnUrl=utangone://"
+          }
+        }
+      },
+      "allergies": {
+        "title": "ALLERGIES",
+        "error": null,
+        "model": {
+          "allergies": [
+            {
+              "type": "DRUG",
+              "name": "Zetia",
+              "reaction": "diarrhea"
+            },
+            {
+              "type": "DRUG",
+              "name": "statins",
+              "reaction": "myalgia"
+            },
+            {
+              "type": "DRUG",
+              "name": "Fosamax",
+              "reaction": "dizziness"
+            },
+            {
+              "type": "DRUG",
+              "name": "Cozaar",
+              "reaction": "dizziness"
+            },
+            {
+              "type": "DRUG",
+              "name": "codeine",
+              "reaction": "constipation,rash"
+            },
+            {
+              "type": "DRUG",
+              "name": "erythromycin-2",
+              "reaction": "rash"
+            },
+            {
+              "type": "DRUG",
+              "name": "lactose intolerant",
+              "reaction": null
+            },
+            {
+              "type": "DRUG",
+              "name": "sulfamethoxazole",
+              "reaction": "rash"
+            },
+            {
+              "type": "DRUG",
+              "name": "Flagyl",
+              "reaction": "rash"
+            }
+          ]
+        }
+      },
+      "dxproblems": {
+        "title": "DIAGNOSTICS",
+        "error": null,
+        "model": {
+          "diagnoses": [
+            "Shortness of breath"
+          ],
+          "problems": [
+            "Congestive heart failure",
+            "Atrial fibrillation",
+            "Hyperlipidemia",
+            "Anxiety",
+            "HTN (hypertension)",
+            "GERD (gastroesophageal reflux disease)",
+            "Osteoarthritis",
+            "Spinal stenosis of cervical region",
+            "Depression",
+            "Diverticulitis",
+            "Squamous cell skin cancer",
+            "Aortic atherosclerosis",
+            "CKD stage 3"
+          ]
+        }
+      },
+      "vitals": {
+        "title": "VITALS",
+        "error": null,
+        "model": {
+          "count": 123,
+          "fields": [
+            {
+              "name": "Temp(DegF)",
+              "rangemax": "98.7",
+              "rangemin": "97.6",
+              "value": "98"
+            },
+            {
+              "name": "HR(bpm)",
+              "rangemax": "155",
+              "rangemin": "82",
+              "value": "83"
+            },
+            {
+              "name": "RR(br/min)",
+              "rangemax": "22",
+              "rangemin": "15",
+              "value": "18"
+            },
+            {
+              "name": "SaO2%(%)",
+              "rangemax": "96",
+              "rangemin": "93",
+              "value": "93"
+            },
+            {
+              "name": "SBP(mmHg)",
+              "rangemax": "148",
+              "rangemin": "103",
+              "value": "120"
+            },
+            {
+              "name": "DBP(mmHg)",
+              "rangemax": "109",
+              "rangemin": "51",
+              "value": "76"
+            },
+            {
+              "name": "MAP(mmHg)",
+              "rangemax": "86",
+              "rangemin": "81",
+              "value": "84"
+            }
+          ]
+        }
+      },
+      "careteam": {
+        "title": "CARE TEAM",
+        "model": {
+          "team": [
+            {
+              "name": "Deborah H. Jones, RN",
+              "relation": "Nurse",
+              "phone": "(555)244-9817"
+            },
+            {
+              "name": "Dr. Albert Hoffman, MD",
+              "relation": "Attending",
+              "phone": "(555)411-2321",
+              "messagingContactId": 50
+            },
+            {
+              "name": "Dr. Theresa King, MD",
+              "relation": "Consulting",
+              "phone": "(555)829-1230",
+              "messagingContactId": 60
+            },
+            {
+              "name": "Luke James Wilson, MD",
+              "relation": "Consulting",
+              "phone": "(555)908-7713"
+            },
+            {
+              "name": "LarryJohns, MD",
+              "relation": "Primary",
+              "phone": "(555)872-3783"
+            }
+          ]
+        }
+      },
+      "meds": {
+        "title": "MEDICATIONS",
+        "error": null,
+        "model": {
+          "count": 22,
+          "meds": [
+            "carVEDILOL",
+            "cholecalciferol",
+            "potassium chloride",
+            "Warfarin (Coumadin) Dosing per Pharmacy",
+            "diltiazem",
+            "furosemide",
+            "cyanocobalamin",
+            "lisinopril",
+            "albuterol",
+            "diltiazem",
+            "docusate",
+            "sodium chloride",
+            "ondansetron",
+            "sodium chloride",
+            "acetaminophen",
+            "traMADol",
+            "traMADol",
+            "potassium chloride",
+            "potassium chloride",
+            "calcium-vitamin D",
+            "pravastatin",
+            "warfarin"
+          ]
+        }
+      },
+      "documents": {
+        "title": "DOCUMENTS",
+        "error": "No Recent Documents",
+        "model": {
+          "icon": "ic_notes",
+          "count": 4,
+          "legend": "",
+          "docs": [
+            {
+              "name": "History & Physical",
+              "date": "2017-5-6T12:03:00-07:00"
+            },
+            {
+              "name": "Other Physician Note",
+              "date": "2017-4-2T12:02:00-07:00"
+            },
+            {
+              "name": "Other Physician Note",
+              "date": "2017-2-20T12:01:00-07:00"
+            },
+            {
+              "name": "History & Physical",
+              "date": "2017-1-11T12:00:00-07:00"
+            }
+          ]
+        }
+      },
+      "notifications": {
+        "title": "NOTIFICATIONS",
+        "model": {
+          "icon": "ic_notes",
+          "count": 6,
+          "legend": ""
+        }
+      },
+      "labs": {
+        "title": "LABS",
+        "model": {
+          "icon": "ic_labs",
+          "count": 3,
+          "hours": 23,
+          "hematologyFishboneData": {
+            "timestamp": "2016-02-08T04:00:00-06:00",
+            "hgb": {
+              "value": 11.2,
+              "normalcyType": "N"
+            },
+            "plt": {
+              "value": 250,
+              "normalcyType": "N"
+            },
+            "hct": {
+              "value": 35.2,
+              "normalcyType": "N"
+            },
+            "wbc": {
+              "value": 4.2,
+              "normalcyType": "N"
+            }
+          },
+          "chemistryFishboneData": {
+            "timestamp": "2016-02-08T04:00:00-06:00",
+            "na": {
+              "value": 138,
+              "normalcyType": "N"
+            },
+            "cl": {
+              "value": 101,
+              "normalcyType": "N"
+            },
+            "bun": {
+              "value": 16,
+              "normalcyType": "N"
+            },
+            "k": {
+              "value": 3.3,
+              "normalcyType": "N"
+            },
+            "hco3": {
+              "value": 29,
+              "normalcyType": "N"
+            },
+            "cr": {
+              "value": 1.11,
+              "normalcyType": "N"
+            },
+            "glu": {
+              "value": 98,
+              "normalcyType": "N"
+            }
+          }
+        }
+      },
+      "ventilator": {
+        "title": "VENTILATOR",
+        "error": null,
+        "model": {
+          "fields": [
+            {
+              "name": "RR",
+              "value": "22 bpm"
+            },
+            {
+              "name": "Ex Vt",
+              "value": "635 mL"
+            },
+            {
+              "name": "Ex Ve",
+              "value": "14.08 lpm"
+            },
+            {
+              "name": "PIP",
+              "value": "31 cm H2O"
+            },
+            {
+              "name": "Peep",
+              "value": "5 L/min"
+            },
+            {
+              "name": "Peep Total",
+              "value": "7 cm H20"
+            }
+          ]
+        }
+      },
+      "observations": {
+        "model": {
+          "count": 6,
+          "fields": [
+            {
+              "name": "RR",
+              "value": "22 bpm"
+            },
+            {
+              "name": "Ex Vt",
+              "value": "635 mL"
+            },
+            {
+              "name": "Ex Ve",
+              "value": "14.08 lpm"
+            },
+            {
+              "name": "PIP",
+              "value": "31 cm H2O"
+            },
+            {
+              "name": "Peep",
+              "value": "5 L/min"
+            },
+            {
+              "name": "Peep Total",
+              "value": "7 cm H20"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "error": null
+}

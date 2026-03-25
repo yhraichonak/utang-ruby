@@ -1,0 +1,184 @@
+#schedules:
+#  - cron: "0 2 * * 1-5"
+#    displayName: Nightly API tests against Automation
+#    branches:
+#      include:
+#        - main
+
+variables:
+  - template: azure-vars.yml
+  - name: jjobname
+    value: as1-at-api
+  - name: resultsStorageAddress
+    value: ehraichonak@10.106.5.18
+  - name: resultsStorage
+    value: C:/jenkins/share/as1-at-api
+  - name: rakeTask
+    ${{ if eq( parameters['runner'], 'cucumber') }}:
+      value: "api_at_full"
+    ${{ if eq( parameters['runner'], 'parallel_cucumber' ) }}:
+      value: "api_at_parallel_full"
+  - name: cucumberFolder
+    ${{ if eq( parameters['runner'], 'cucumber') }}:
+      value: "docs/reports"
+    ${{ if eq( parameters['runner'], 'parallel_cucumber' ) }}:
+      value: "docs/reports_parallel"
+  #TODO: implement conditional parameter value based on Build.DefinitionName. variable value
+  - name: addParametersDefault
+    value: " "
+
+parameters:
+  - name: customCommitSHA
+    type: string
+    default: " "
+  - name: runDescription
+    type: string
+    default: "API AT"
+  - name: featuresPath
+    type: string
+    default: "api/features"
+  - name: tags
+    type: string
+    default: '--tags "not @skip" --tags "not @ahi" --tags "not @obsolete"'
+  - name: scenarioName
+    type: string
+    default: " "
+  - name: environment
+    type: string
+    default: automation
+    values:
+      - automation
+      - automation2
+      - 35
+      - 34
+  - name: branch
+    type: string
+    default: rc
+    values:
+      - DEVELOP
+      - develop-build
+      - release
+      - rc
+      - RC-build
+      - rc-2
+  - name: appVersion
+    type: string
+    default: "4.2.0"
+  - name: appBuild
+    type: string
+    default: "3540"
+  - name: runner
+    type: string
+    default: cucumber
+    values:
+      - cucumber
+      - parallel_cucumber
+  - name: threads
+    type: number
+    default: 4
+  - name: retries
+    type: number
+    default: 2
+  - name: dryRun
+    type: boolean
+    default: false
+  - name: additionalOptions
+    type: string
+    default: " "
+  - name: agent
+    displayName: agent
+    type: string
+    values:
+      - LMSAQAMAC01
+      - MACCL10
+    default: LMSAQAMAC01
+
+name: "[$(Build.BuildId)] [${{parameters.runDescription}}] [env=${{parameters.environment}}; br=${{parameters.branch}}; v=${{parameters.appVersion}}; b=${{parameters.appBuild}};]"
+trigger:
+  - none
+
+jobs:
+  - job: utang_AT
+    timeoutInMinutes: 600
+    pool:
+      name: utang Home Office Mac Machines
+      demands: Agent.ComputerName -equals ${{ parameters.agent }}
+    steps:
+      - checkout: self
+      - ${{ if ne(parameters.customCommitSHA, ' ') }}:
+        - script: |
+            cd  $(projectPath)
+            git reset --hard ${{parameters.customCommitSHA}}
+            cd ..
+          name: CheckoutCustomSHA
+      - script: |
+          cd  $(projectPath)
+          bundle install
+          mkdir -p docs
+          mkdir -p docs/reports
+          rm -fr docs/reports/xml_reports/*
+        name: CheckoutAndFSPreparation
+      - script: |
+          #set  -x
+          cd $(projectPath) && rake reset && set -x && rake $(rakeTask) \
+          FEATURES_PATH='${{parameters.featuresPath}}' DRY_RUN=${{parameters.dryRun}} TAGS='${{parameters.tags}}' SCENARIO_NAME='${{parameters.scenarioName}}' \
+          ENVIRONMENT=${{parameters.environment}} BRANCH=${{parameters.branch}} APP_VERSION=${{parameters.appVersion}} \
+          APP_BUILD=${{parameters.appBuild}} THREADS=${{parameters.threads}} ADDITIONAL_OPTIONS="${{parameters.additionalOptions}}" RETRIES=${{parameters.retries}}
+        name: TestsExecution
+#      - script:  rake clear_xunit_duplicated
+#        name: ReplaceDuplicatedResults
+      - script: |
+          set  -x	
+          build_number=`curl -s --request GET '$(jenkinsBaseURL)/job/$(jjobname)/api/json?pretty=true' $(jenkinsSecret) | grep "nextBuildNumber" | awk '{print $3}' | sed 's/,//'`	
+          allure_url=$(allureBaseURL)/allure/$(Build.DefinitionName)/$(Build.BuildId)	
+          jenkins_build_url=$(jenkinsBaseURL)/job/$(jjobname)/$build_number	
+          echo "<html><body>\
+          <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$allure_url\">$allure_url</a><br/>\
+          <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$jenkins_build_url\">Allure Trend</a>	
+          </body></html>" > ./$(projectPath)/docs/reports/allure_reference.html
+        name: PrepareAllureReportReference
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+          testResultsFiles: "docs/reports/xml_reports/TEST-*.xml"
+          mergeTestResults: true
+          testRunTitle: 'utang API test automation result'
+      - task: PublishAllureReport@1
+        condition: succeededOrFailed()
+        displayName: Publish Allure Reports
+        inputs:
+          reportDir: "$(Build.SourcesDirectory)/docs/allure-report"
+      - task: CopyFiles@2
+        displayName: 'Copy all test results to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          Contents: |
+            *.txt
+            **/allure/**/*.*
+            **/reports/**/*.*
+            **/allure-report/**/*.*
+            **/reports_parallel/**/*.*
+          SourceFolder: $(projectPath)
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      - script: |
+          set  -x
+          scp -r $(Build.ArtifactStagingDirectory)/docs/allure $(resultsStorageAddress):$(resultsStorage)
+          scp -r $(Build.ArtifactStagingDirectory)/docs/reports/xml_reports $(resultsStorageAddress):$(resultsStorage)
+          echo curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab
+          curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab || true
+        name: PostResultsToATJenkins
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'artifacts'
+
+      - task: PublishHtmlReport@1
+        inputs:
+          tabName: 'Allure Report Reference'
+          reportDir: '$(projectPath)/docs/reports/allure_reference.html'
+    displayName: 'Run utang API test automation'
+
+
+

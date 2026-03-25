@@ -1,0 +1,14 @@
+# config/cucumber.yml
+##YAML Template
+
+parallel_reports: --format progress --format json --out docs/reports/threads/<%= ENV['REPORT_TITLE'] %>_<%= ENV['TEST_ENV_NUMBER'] %>.json --format AllureCucumber::Formatter --out docs/allure
+
+default: --format pretty │ --publish-quiet INFO='true'
+
+json_report: --format progress --format cucumber-json-formatter --out=docs/reports/features_report.json 
+
+debug: --format pretty --format html --out=docs/reports/html_report.html --format junit --out=docs/reports/xml_reports INFO='true' DEBUG='true'
+
+debug_web: --format json --out=features_report.json --format pretty --format Cucumber::Formatter::ScenariosExec -o testsRun.txt
+
+debug_web_did_not_work: --format json --out=features_report.json --format pretty

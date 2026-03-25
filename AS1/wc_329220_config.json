@@ -1,0 +1,116 @@
+{
+  "siteid": 4751,
+  "apiRoot": "/fed-web/api/",
+  "timezone": "America/Chicago",
+  "siteName": "Automation Site",
+  "mainNav":[
+    "overview",
+    "monitor",
+    "documents",
+    "ecgs"
+  ],
+  "pm":{
+    "snippetRawData":true,
+    "pollingFrequencyInSeconds":60,
+    "qtc":true,
+    "selectSnippetType":true,
+    "mpv":{
+      "singleLeadSeconds":6
+    },
+    "sweep":true,
+    "sweepHideDot":true,
+    "pdfViewerUrl":"/pdf-viewer/index.html",
+    "showShiftAssessment": true
+  },
+  "hidePHI":false,
+  "hideMpv12":false,
+  "hideMpv16":false,
+  "customBedLists":[
+    {
+      "label":"OR Floor 1",
+      "beds":[
+        {
+          "unit":"ICU",
+          "location":"ICU-05"
+        },
+        {
+          "unit":"SU",
+          "location":"SU-06"
+        },
+        {
+          "unit":"ATQA",
+          "location":"QA1"
+        },
+        {
+          "unit":"ATQA",
+          "location":"QA3"
+        },
+        {
+          "unit":"ATQA",
+          "location":"QA4"
+        },
+        {
+          "unit":"ATQA",
+          "location":"QA5"
+        },
+        {
+          "unit":"ATQA",
+          "location":"QA6"
+        },
+        {
+          "unit":"ATQA",
+          "location":"QA7"
+        },
+        {
+          "unit":"ATQA",
+          "location":"QA8"
+        },
+        {
+          "unit":"ATQA",
+          "location":"QA9"
+        }
+      ]
+    },
+    {
+      "label":"OR Floor 2",
+      "beds":[
+        {
+          "unit":"5E",
+          "location":"100"
+        },
+        {
+          "unit":"ALARM",
+          "location":"ALM-01"
+        },
+        {
+          "unit":"ATQA",
+          "location":"QA2"
+        },
+        {
+          "unit":"CCU",
+          "location":"CCU-01"
+        }
+      ]
+    },
+    {
+      "label":"OR Floor 3",
+      "beds":[
+        {
+          "unit":"ALARM",
+          "location":"ALM-01"
+        },
+        {
+          "unit":"CCU",
+          "location":"CCU-01"
+        }
+      ]
+    }
+  ],
+  "ob":{
+    "multiPatientOverride":true
+  },
+  "snippetsReports":{
+
+  },
+  "DEVELOPMENT_ONLY_OB":true
+}

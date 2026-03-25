@@ -1,0 +1,525 @@
+class IOSDevices
+
+  def initialize
+    #@selenium = selenium
+    #@appium = appium
+  end
+
+def LMSAQAMAC01(device_name, ios_version) #10.10.170.121 - QAMACCL04
+  ios_version = "iOS #{ios_version}"
+  case ios_version
+    
+	when "iOS 12.4"
+		if device_name == "iPhone 7 Plus"
+      udid = "B5121BD1-9DF6-47C1-A6D8-B8D7EC07D178"
+		elsif device_name == "iPhone 8"
+		  udid = "897668A5-0AB4-4939-9401-7DC29683CDC9"		
+		elsif device_name == "iPhone X"
+		  udid = "FEECBBE6-F78D-4131-AFCB-ED7FF1D16F81"
+		elsif device_name == "iPad Pro (12.9-inch)"
+		  udid = "233DF875-DB26-4380-B711-A8D3A7E3C0C7y"		
+		end
+	
+	when "iOS 13.5"
+    if device_name == "iPhone 7 Plus"
+      udid = "3E7B89AB-3695-449F-AF82-A43FE1B15C2D"
+    elsif device_name == "iPhone 8"
+      udid = "FB60DEFD-B580-48F0-A832-DCDF03727132"
+    elsif device_name == "iPhone X"
+      udid = "5710A997-FE66-43B4-B6B6-14826DBE1E8D"      
+    elsif device_name == "iPad Pro (12.9-inch)"
+      udid = "11522A7F-EBEE-43F1-8E61-E3BD065D8677"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "9CBF050B-7EF0-47E8-B178-B2584659CB43"
+    end
+  when "iOS 13.6"
+    if device_name == "iPhone 7 Plus"
+      udid = "2A7C0DF9-8133-4A81-B3D0-1FE9E0458981"
+    elsif device_name == "iPhone 8"
+      udid = "7B184A77-9CDF-4A2B-8BA1-48C744523C32"
+    elsif device_name == "iPhone X"
+      udid = "F55A6797-03CD-4729-889D-97CEB2C6E3D5"      
+    elsif device_name == "iPad Pro (12.9-inch)"
+      udid = "1A40338D-1B0F-47A5-A1DC-576D81E9811C"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "08059E78-46B5-4E0E-BC84-E1D6790859C3"
+    end
+    
+  when "iOS 13.7"
+    if device_name == "iPhone 7 Plus"
+      udid = "B0D20B36-A44A-4553-93E5-856F5B48AB97"
+    elsif device_name == "iPhone 8"
+      udid = "CE2ADD28-399F-4ADB-97D0-FFE8D4A0F759"
+    elsif device_name == "iPhone X"
+      udid = "800492DC-2F90-4ABE-8D46-5736E5089BE6"      
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "C63691A1-7054-4FBD-858C-16CD6158236A"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "8F98A961-D587-45FD-AFA8-213C71D96E6D"
+    end
+    
+  when "iOS 14.1"
+    if device_name == "iPhone 7 Plus"
+      udid = "54131288-411A-4F86-8963-9C83A2D9CFE1"
+    elsif device_name == "iPhone 8"
+      udid = "E0942693-5B3C-4303-A2C6-DCFE93B15EFE"
+    elsif device_name == "iPhone X"
+      udid = "14A8C4FD-C0ED-4E0E-B132-5232F7887A55"      
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "(329E05E9-C6E7-4D1A-ABB6-C37CCBE71014"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "C71AD916-0596-48E5-A03E-B01783366B35"
+    end
+    
+  when "iOS 14.3"
+    if device_name == "iPhone 7 Plus"
+      udid = "6460745F-0965-4976-AC61-37DFE0FDF0AC"
+    elsif device_name == "iPhone 8"
+      udid = "88C87452-A31E-4BFA-850F-BF4BA6F1A1AE"
+    elsif device_name == "iPhone X"
+      udid = "8DB7E79C-BCC5-441E-9BE3-31DD4AAE14D2"
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "AD089499-0899-48CC-B74B-D4DB5961FBAB"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "30962CBA-FE6D-4A98-9CA2-57C9604DF714"
+    end
+    
+  end # end case for 10.10.170.121
+end
+
+def QAMACCL04(device_name, ios_version) #10.10.170.122 - QAMACCL04
+  ios_version = "iOS #{ios_version}"
+  case ios_version
+    
+	when "iOS 12.4"
+		if device_name == "iPhone 7 Plus"
+      udid = "FBF2C988-B5EA-4FAF-861B-4DB63B44ED06"
+		elsif device_name == "iPhone 8"
+		  udid = "74919528-06F7-4D02-AEBC-B5A56BBF04F1"		
+		elsif device_name == "iPhone X"
+		  udid = "86545D15-5B0D-44D5-A383-CAACC82E3361"
+		elsif device_name == "iPad Pro (12.9-inch)"
+		  udid = "71DFE0EF-3691-4CC7-BC5E-9B7A14D815AF"		
+		end
+	
+	when "iOS 13.5"
+    if device_name == "iPhone 7 Plus"
+      udid = "AE810152-AD72-4956-9292-2A1B6EB25574"
+    elsif device_name == "iPhone 8"
+      udid = "C067678D-E074-4D1F-B023-1FFD33481C9F"
+    elsif device_name == "iPhone X"
+      udid = "806E1697-6086-433B-B2CE-6F033C7708AE"      
+    elsif device_name == "iPad Pro (12.9-inch)"
+      udid = "01072EA7-9FA1-4451-964D-7558C120D934"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "9437BC82-EDCE-43F6-B5DC-B94F5B11AC10"
+    end
+  when "iOS 13.6"
+    if device_name == "iPhone 7 Plus"
+      udid = "2DFF2693-4FE9-44EB-9FAC-6627AABA4A15"
+    elsif device_name == "iPhone 8"
+      udid = "52964AA9-D058-413E-8A5B-4C6D42681307"
+    elsif device_name == "iPhone X"
+      udid = "C597CC66-9200-40D7-A79A-0042E173D68B"      
+    elsif device_name == "iPad Pro (12.9-inch)"
+      udid = "A2678C37-BE76-4602-A4C1-030F5A5D0B0B"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "8DAB245F-CA49-4E03-A773-EA54F45A0C49"
+    end
+    
+  when "iOS 13.7"
+    if device_name == "iPhone 7 Plus"
+      udid = "C6A98887-4A79-4CA6-8477-20CADE30FC4E"
+    elsif device_name == "iPhone 8"
+      udid = "36CB740D-CDD7-4F0F-B36A-9E3B2188DAA5"
+    elsif device_name == "iPhone X"
+      udid = "CAA75F3B-8E71-408B-8531-AB1C0A5D5453"      
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "AD28CF11-5C03-4086-93E2-BCA4F4EE13C0"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "76378AA1-B2B7-4DC7-830C-5771F42B2F61"
+    end
+    
+  when "iOS 14.1"
+    if device_name == "iPhone 7 Plus"
+      udid = "9F91E814-D9A4-4E3B-BCCC-344D661EFABE"
+    elsif device_name == "iPhone 8"
+      udid = "746232A1-DE06-48F2-BF70-55FCDCFEC06D"
+    elsif device_name == "iPhone X"
+      udid = "82680B9A-28C2-471E-9ECB-15BE5F7A9587"      
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "09091271-C585-404D-A917-B9ED24F754E8"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "DC5FBF9A-C974-4641-A739-2F2DCCCE71C0"
+    end
+    
+  when "iOS 14.3"
+    if device_name == "iPhone 7 Plus"
+      udid = "49E409ED-A06C-446C-AACE-21DA02F28FD8"
+    elsif device_name == "iPhone 8"
+      udid = "7EBBF465-A2D6-4B64-AE57-3EE1427538BF"
+    elsif device_name == "iPhone X"
+      udid = "CB612BB4-3923-4B67-ABE1-93AF9427FB01"
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "616BED8A-FC62-4ECA-9F2E-7CC750BE8571"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "2E9DE610-3151-458D-A347-BF825683C03E"
+    end
+  end # end case for 10.10.170.122
+end
+
+def MACCL07(device_name, ios_version) #10.10.170.123
+  ios_version = "iOS #{ios_version}"
+  case ios_version
+
+   when "iOS 13.7"  
+        if device_name == "iPhone 7 Plus"
+          udid = "700CCF6B-D1A2-4699-B5FE-87D9B4BA0847"
+        elsif device_name == "iPhone 8"
+          udid = "84531F43-4ACE-4612-8D1E-EA2214DFA93B"
+        elsif device_name == "iPhone X"
+          udid = "51A13875-5603-4831-81C2-670B13D61E8D"
+        elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+          udid = "900E79AB-ABEC-4014-B112-A6C7FD9D5B5E"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "49A8AE5C-5972-439C-9824-E719771534BE"
+        end
+    when "iOS 14.3"  
+        if device_name == "iPhone 7 Plus"
+          udid = "B0063AB4-20F9-4142-8C9D-A3543EBE8BB3"
+        elsif device_name == "iPhone 8"
+          udid = "5FC88388-AD58-4B84-A3E9-20D5F8DAF1B8"
+        elsif device_name == "iPhone X"
+          udid = "1659BAA0-CC19-41B2-8585-4BAEF8CD22B4"
+        elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+          udid = "107A4F28-05B7-4FA3-97E0-A9FDA7773816"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "6143945E-5772-413E-BC91-A7F5F3374222"
+        end
+    when "iOS 14.4"  
+        if device_name == "iPhone 7 Plus"
+          udid = "49C0B0B3-31C2-477A-8D28-112B38AC2A50"
+        elsif device_name == "iPhone 8"
+          udid = "057B366E-4095-468B-926F-70155618B909"
+        elsif device_name == "iPhone X"
+          udid = "204887E5-E959-4C39-B6F4-8FBA04DFE152"
+        elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+          udid = "729196AF-8256-4B1E-9CEC-9A1296781994"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "6DECEC94-0459-4600-9ADF-DF16C734F47A"
+        end
+  end
+end
+
+def LMSARATR10(device_name, ios_version)  # ray macbook ##
+  ios_version = "iOS #{ios_version}"
+  
+  case ios_version
+  
+  when "iOS 12.4"
+		if device_name == "iPhone 7 Plus"
+      udid = "93D52CCE-8A38-448E-A68B-6777FF55F087"
+		elsif device_name == "iPhone 8"
+		  udid = "ADC7D952-FC62-48CB-8108-9BFF42DA7B2D"		
+		elsif device_name == "iPhone X"
+		  udid = "06CC27DF-F5A1-48EB-A8AC-D081ADC6EAB5"		
+		elsif device_name == "iPad Pro (12.9-inch)"
+		  udid = "5CD8F376-9B79-4541-B9B2-C4835592B4D3"		
+		end
+		
+  when "iOS 13.5"
+    if device_name == "iPhone 7 Plus"
+      udid = "AEFAAC1A-0937-47BE-9F0F-C64157EE10D2"
+    elsif device_name == "iPhone 8"
+      udid = "6E111FAE-CEA3-49C5-9CD8-D399557A9F0D"
+    elsif device_name == "iPhone X"
+      udid = "8B4046E9-07CD-4A9F-B2D5-0BAD1AA695B1"      
+    elsif device_name == "iPad Pro (12.9-inch)"
+      udid = "8F4B9DE3-2A91-451A-A88C-CA08404E5EC2"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "4DD1184E-4436-4F43-A09E-96E6B45886EE"    
+    end
+    
+  when "iOS 13.6"
+    if device_name == "iPhone 7 Plus"
+      udid = "0BCEF90B-745F-4632-AE8E-4B2497DC4A42"
+    elsif device_name == "iPhone 8"
+      udid = "CDA4E96D-40D5-4F08-9017-D872B7D6FF15"
+    elsif device_name == "iPhone X"
+      udid = "4B099D3F-B87B-4BC4-88F9-292B74DE0187"      
+    elsif device_name == "iPad Pro (12.9-inch)"
+      udid = "DCA1285F-59F0-4DFA-B5FE-F24ED6CC9EC0"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "108C23B9-64C1-4410-8EB9-B8160CCF2F65"    
+    end
+    
+  when "iOS 13.7"
+    if device_name == "iPhone 7 Plus"
+      udid = "9AC1E6CF-FB51-4022-8CF5-D376139FD340"
+    elsif device_name == "iPhone 8"
+      udid = "74FC1F3F-B468-49D2-80DE-F83C8483353E"
+    elsif device_name == "iPhone X"
+      udid = "8628BFB1-28C4-4991-92CB-2F3FC8C6008E"
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "F8AFBA69-27DD-4692-8B21-893F082C258D"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "EE3FDDAE-CE2F-4F8B-A7A7-EF5D62A34DD4"
+    end
+       
+  when "iOS 14.0"
+    if device_name == "iPhone 7 Plus"
+      udid = "C277FC63-FA51-4BB1-A077-8A72FB596779"
+    elsif device_name == "iPhone 8"
+      udid = "6269EE5B-65E1-4721-9E15-319FEAA2F9E6"
+    elsif device_name == "iPhone X"
+      udid = "23C0A41F-013F-45DA-8AFE-DBDD982387F8"      
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "DEBFBAFC-FD10-4C57-9387-F8DEBEBE6C94"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "00E0FB71-3D07-4DA9-B717-E2B44977E7A2"    
+    end
+    
+  when "iOS 14.1"
+    if device_name == "iPhone 7 Plus"
+      udid = "96D914AC-8941-45DC-8B48-481640B8D57A"
+    elsif device_name == "iPhone 8"
+      udid = "487EDCFE-BE87-49AA-88C8-AACDBB4098AB"
+    elsif device_name == "iPhone X"
+      udid = "E5B25900-0503-4DBD-A649-B1DB2C18B4E6"
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "C387D015-4F53-4370-91F0-4CF232575FC8"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "BBD1C501-DE73-4C1D-934E-B4EE22AEC0F8"
+    end
+    
+  when "iOS 14.3"
+    if device_name == "iPhone 7 Plus"
+      udid = "339EA47B-290E-4273-A51C-05FA12E47324"
+    elsif device_name == "iPhone 8"
+      udid = "50BD4F3A-6821-4B8F-8A87-AB4F4A27C2FD"
+    elsif device_name == "iPhone X"
+      udid = "3B6981AF-2B2D-4AFA-8929-69A22D136920"
+    elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+      udid = "22991194-5E84-4722-BBE1-3AA13143CCF3"
+    elsif device_name == "iPhone 11 Pro"
+      udid = "3E0D1577-25B4-4D22-AE59-07E795F6E4D0"
+    end
+    
+  end #end of case for ray's macbook
+end #end of method
+
+def MACCl05(device_name, ios_version) #10.10.170.126 - MACCl05
+  ios_version = "iOS #{ios_version}"
+    case ios_version
+      
+    when "iOS 12.4"
+        if device_name == "iPhone 7 Plus"
+          udid = "5DC18387-71C6-4B92-8BCD-14B769E4D79B"
+        elsif device_name == "iPhone 8"
+          udid = "6CCE3F82-B8C7-44E3-A9EC-C5E03A7DB8A0"
+        elsif device_name == "iPhone X"
+          udid = "BCE176BE-1B53-4D23-B681-64807C6E0EB5"
+        elsif device_name == "iPad Pro (12.9-inch)"
+          udid = "9E6942E7-820E-4873-A0C9-D3F2BCE82D03s"
+        end
+        
+      when "iOS 13.5"
+        if device_name == "iPhone 7 Plus"
+          udid = "EB440B81-7187-4FB6-B77E-F9F71BA50E11"
+        elsif device_name == "iPhone 8"
+          udid = "55189D38-D645-4F59-85AA-5C8AC2C00BC7"
+        elsif device_name == "iPhone X"
+          udid = "D4082A9C-E1E7-424E-8673-070CA69C62B0"
+        elsif device_name == "iPad Pro (12.9-inch)"
+          udid = "C59A54E1-6D37-42C0-A2B9-6F14EF861F21"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "E65F587A-205A-44A1-A4FF-2C1D6044FB73"  
+        end
+        
+      when "iOS 13.6"  
+        if device_name == "iPhone 7 Plus"
+          udid = "12479A52-7D3B-4FF6-A49C-1FBA0778E699"
+        elsif device_name == "iPhone 8"
+          udid = "36B90A95-50DA-43A6-A710-E1339B19B531"
+        elsif device_name == "iPhone X"
+          udid = "ADB9F6A4-FCEA-42EC-9EF4-BDA31F6A835A"
+        elsif device_name == "iPad Pro (12.9-inch)"
+          udid = "BB5C39D6-3162-4FA8-8CFE-7C6ED57E3F51"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "DC6CE70E-386C-4A08-8D81-70D577641B4B"  
+        end
+        
+      when "iOS 13.7"
+        if device_name == "iPhone 7 Plus"
+          udid = "69299669-E9A6-4E30-8FCE-4A35280BFF2B"
+        elsif device_name == "iPhone 8"
+          udid = "BFF0F7B0-7A1A-4B53-AA20-CFAB0926B00A"
+        elsif device_name == "iPhone X"
+          udid = "A0F50009-E4A0-4C44-A5F6-F34B80167038"
+        elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+          udid = "ADA2E9ED-F774-49F5-839F-E87D106A6CE6"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "FF78FEDC-3FCC-47A2-A0BE-4B678813B395"
+        end
+    
+      when "iOS 14.1"
+        if device_name == "iPhone 7 Plus"
+          udid = "9A6BECE1-0D44-4D78-A9EF-3F6E70322BDE"
+        elsif device_name == "iPhone 8"
+          udid = "8DE5A0F6-6A6F-4DB3-A766-05C0C214DEEF"
+        elsif device_name == "iPhone X"
+          udid = "8BAAB09D-41F6-49AE-A900-C49767C4C4DC"
+        elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+          udid = "C3B0AAA2-188E-40AA-9C60-4600B13E7E6B"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "8AC96CA7-86D5-45E4-95F2-204C7539B060"
+        end
+        
+      when "iOS 14.3"
+        if device_name == "iPhone 7 Plus"
+          udid = "D158B009-BC33-4EFF-9B36-339EF3B2E25E"
+        elsif device_name == "iPhone 8"
+          udid = "020EB3BE-6D94-4FA5-881C-85B8D7E4B150"
+        elsif device_name == "iPhone X"
+          udid = "CAF530DA-CFA0-47A0-B147-E717EA65B0FB"
+        elsif device_name == "iPad Pro (12.9-inch) (1st generation)"
+          udid = "388AB30A-B721-4E7F-8F04-FB433B740EF8"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "7071E7ED-7683-465C-869B-B18A218D0554"
+        end
+    end # end of case for 10.10.170.126
+end
+
+def DMSAROSC01(device_name, ios_version) #10.10.170.148
+  ios_version = "iOS #{ios_version}"
+  case ios_version
+    
+  when "iOS 12.4"  
+        if device_name == "iPhone 7 Plus"
+          udid = "D6A81784-FB74-48B5-8B70-BF72919DC500"
+        elsif device_name == "iPhone 8"
+          udid = "2821A4A8-408D-42E5-B495-A46654ACEACB"
+        elsif device_name == "iPhone X"
+          udid = "F9C04083-EE30-4819-BDA8-D017ED15FDD8"
+        elsif device_name == "iPad Pro (12.9-inch)"
+          udid = "C58A5F4B-4054-4B2E-8844-5DD4063443E2"
+        end
+   when "iOS 13.5"  
+        if device_name == "iPhone 7 Plus"
+          udid = "4076AF07-51BF-4E2C-B438-FBAAE51E25D1"
+        elsif device_name == "iPhone 8"
+          udid = "F08ADEBF-6CEC-4332-B3EE-13548C3C59CE"
+        elsif device_name == "iPhone X"
+          udid = "AF44190B-951A-42A0-96A2-D34A283DB549"
+        elsif device_name == "iPad Pro (12.9-inch)"
+          udid = "ED922A33-32BF-4169-80DC-0034DC646BAD"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "F23D1ABD-ABEB-42C7-A76A-428CA5FE29F3"  
+        end
+    when "iOS 13.6"  
+        if device_name == "iPhone 7 Plus"
+          udid = "972E7D8B-468D-42AB-BA7E-AB0999A22546"
+        elsif device_name == "iPhone 8"
+          udid = "C7C78FF5-4F3E-4133-AABF-8BEA49C4BAB2"
+        elsif device_name == "iPhone X"
+          udid = "66A3FC79-3C66-4C67-A201-1F44AE555158"
+        elsif device_name == "iPad Pro (12.9-inch)"
+          udid = "94278C76-037B-4CA7-B2EC-97DF6E6E857B"
+        elsif device_name == "iPhone 11 Pro"
+          udid = "7040D569-E4F1-4697-BD86-5150BB224493"  
+        end
+  end
+end
+
+def LMSATYJO01(device_name, ios_version)
+  ios_version = "iOS #{ios_version}"
+  case ios_version    
+  when "iOS 12.4"
+    if device_name == "iPhone 5s"
+      udid = "40FB49AE-BECD-46C1-A7AF-8088D834827A"
+    elsif device_name == "iPhone 6"
+      udid = "44052E43-F1AB-43ED-9FF4-EB2F1FF77852" 
+    elsif device_name == "iPhone 6 Plus"
+      udid = "73A49664-B35C-474C-A12F-8EE391DE45A8"
+    elsif device_name == "iPhone 6s"
+      udid = "8CCB9E86-B274-4523-A107-868A6DB92A13"
+    elsif device_name == "iPhone 6s Plus"
+      udid = "76C4DF61-4C07-4428-9391-04859ECF15BE"
+    elsif device_name == "iPhone 7"
+      udid = "3FA93761-699D-4530-9900-460690AD4365"
+    elsif device_name == "iPhone 7 Plus"
+      udid = "9EA17224-F56D-417B-A17A-FC7043406076"
+    elsif device_name == "iPhone 8"
+      udid = "121EA597-D825-4A2C-A81B-7F9E00FBDE00" 
+    elsif device_name == "iPhone 8 Plus"
+      udid = "DCD237D3-2478-4E2C-AF7F-9A6B0FCD5646"
+    elsif device_name == "iPhone SE"
+      udid = "0A1FE88B-53D8-48EF-ABCA-F635EA3FC249"
+    elsif device_name == "iPhone X"
+      udid = "FED10C13-B639-42F0-9EF5-429E13C22CD6"
+    elsif device_name == "iPhone Xs"
+      udid = "45FFAB69-7999-48EA-B724-8CB20DC4D66E"
+    elsif device_name == "iPhone Xs Max"
+      udid = "869BE3C0-35F5-48AB-BB3E-DF988D10F8F4"
+    elsif device_name == "iPhone Xʀ"
+      udid = "BCAA6EBD-F563-489E-9409-5770B5A35C04"
+    elsif device_name == "iPad Air (3rd generation)"
+      udid = "A1B927F5-BB35-4C19-A3A2-AE4E0A9636D9"
+    elsif device_name == "iPad Air"
+      udid = "3F2A5654-E393-45F7-8DC4-68EF3D6BADBD"
+    elsif device_name == "iPad Air 2"
+      udid = "502638D3-D7E4-49CA-95AA-AFB15999575D"
+    elsif device_name == "iPad (5th generation)"
+      udid = "BB3E9DAC-FB5C-4B19-B9FE-60413FAFEAC8"
+    elsif device_name == "iPad Pro (9.7-inch)"
+      udid = "8EBE0A23-E1AA-4E86-8600-E0C71186EE72"
+    elsif device_name == "iPad Pro (12.9-inch)"
+      udid = "1CFC5861-5292-43BA-BBA4-3C929FAA2AD7"
+    elsif device_name == "iPad Pro (12.9-inch) (2nd generation)"
+      udid = "CA156990-5DA1-400F-80A0-7D93223CE454"
+    elsif device_name == "iPad Pro (10.5-inch)"
+      udid = "6DB2EB48-FC4D-49BC-B78F-ED93B7390B9B"
+    elsif device_name == "iPad (6th generation)"
+      udid = "C9ACC0C4-3893-4F6E-9FEF-057B29FCC3AE"
+    elsif device_name == "iPad Pro (11-inch)"
+      udid = "341BFF9C-A84A-4B8F-8A17-B15C47419F14"
+    elsif device_name == "iPad Pro (12.9-inch) (3rd generation)"
+      udid = "F02FB837-22BC-4AF4-B410-1F236396734B"
+    end
+  end
+end
+
+#10.10.170.121
+
+def MACCL03(device_name, ios_version) #10.10.170.121 - old
+  ios_version = "iOS #{ios_version}"
+  case ios_version
+    
+  when "iOS 12.2"       
+      
+  when "iOS 12.4"       
+      if device_name == "iPhone 7 Plus"
+          udid = "2120F410-8E66-4ECF-91E0-99398264A753"
+      elsif device_name == "iPhone 8"
+          udid = "189A42F7-A865-4136-9518-60BCB04890D5"
+      elsif device_name == "iPhone X"
+          udid = "8187DCFC-8D73-44F0-8CB2-7DC42AF49812"
+      elsif device_name == "iPad Pro (12.9-inch)"
+          udid = "427A25EC-A92D-41D3-AAFD-33F0B3D27844"
+      end
+  when "iOS 13.3"       
+      if device_name == "iPhone 7 Plus"
+          udid = "28855455-7258-43F6-B03D-589EA3B91D51"
+      elsif device_name == "iPhone 8"
+          udid = "46758995-FC0E-4375-8212-E69A6D318481"
+      elsif device_name == "iPhone X"
+          udid = "4A1D76EB-FB1E-4CE5-8E23-A4C70A37041D"
+      elsif device_name == "iPad Pro (12.9-inch)"
+          udid = "AB17B973-0646-4022-994B-364989DBB1BD"
+      elsif device_name == "iPhone 11 Pro"
+        udid = "76F46ECA-7B77-440A-BC31-54AB511943A6" 
+      end 
+  end
+end
+
+end #end of class

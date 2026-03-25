@@ -1,0 +1,322 @@
+name: "[$(Build.BuildId)] [${{parameters.runDescription}}] [env=${{parameters.siteName}}; device=${{parameters.device}}; version=${{parameters.asVersion}}; build=${{parameters.asBuildNumber}}]"
+
+trigger:
+  - none
+
+#schedules:
+#  - cron: "0 4 * * 2,4"
+#    displayName: Scheduled Android regression tests against Automation env
+#    branches:
+#      include:
+#        - main
+
+variables:
+  - template: azure-vars.yml
+  - name: projectPath
+    value:  .
+  - name: jenkinsBaseURL
+    value: http://10.106.5.18:8090
+  - name: allureBaseURL
+    value: http://10.106.5.18
+  - name: jenkinsSecret
+    value: --user admin:11f78d2d7ec0822f26658e985528ec46da
+  - name: jjobname
+    value: as1-at-android
+  - name: resultsStorage
+    value: C:/jenkins/share/as1-at-android
+  - name: rakeTask
+    value: "android_at_full"
+
+parameters:
+  - name: customCommitSHA
+    type: string
+    default: " "
+  - name: runDescription
+    type: string
+    default: "Android Automation"
+  - name: featuresPath
+    type: string
+    default: "android/features"
+  - name: tags
+    type: string
+    default: '--tags @automated --tags "not @skip" --tags "not @obsolete"'
+  - name: scenarioName
+    type: string
+    default: " "
+  - name: siteName
+    type: string
+    default: Auto
+    values:
+      - 35
+      - 34
+      - Auto
+      - qaauto
+  - name: device
+    type: string
+    default: Pixel140
+    displayName: Android emulator AVD
+    values:
+      - Pixel120
+      - Pixel130
+      - Pixel140
+      - Pixel150
+      - Pixel160
+  - name: asVersion
+    type: string
+    default: "7.1.0"
+  - name: asBuildNumber
+    type: string
+    default: "11921"
+  - name: asBuildPipeline
+    type: string
+    default: "RC"
+    values:
+      - RELEASE
+      - RC
+      - DEVELOP
+  - name: overrideAppPath
+    type: boolean
+    default: false
+  - name: appPathOverridePath
+    type: string
+    default: " "
+  - name: retries
+    type: number
+    default: 2
+  - name: appiumAutoStart
+    type: boolean
+    default: true
+  - name: dryRun
+    type: boolean
+    default: false
+  - name: agent
+    displayName: agent
+    type: string
+    values:
+      - maccl10-agent-1
+      - maccl10-agent-2
+      - maccl10-agent-3
+    default: maccl10-agent-3
+  - name: additionalOptions
+    type: string
+    default: " "
+  - name: testRailRunID
+    type: string
+    default: "13185"
+  - name: exportToTestRails
+    type: boolean
+    default: false
+  - name: overwriteSameTestRailResults
+    type: boolean
+    default: false
+  - name: getExecutionCandidateFromTR
+    type: boolean
+    default: false
+  - name: executeOnlyNonExecuted
+    type: boolean
+    default: false
+
+jobs:
+  - job: utang_AT_Android
+    displayName: 'Run utang Android test automation'
+    timeoutInMinutes: 600
+    pool:
+      name: utang Home Office Mac Machines
+      demands: Agent.Name -equals ${{ parameters.agent }}
+    steps:
+      - checkout: self
+      - ${{ if ne(parameters.customCommitSHA, ' ') }}:
+        - script: |
+            cd  $(projectPath)
+            git reset --hard ${{parameters.customCommitSHA}}
+            cd ..
+          name: CheckoutCustomSHA
+      - ${{ if eq(parameters.overrideAppPath, 'true') }}:
+        - script: |
+            APP_PATH=${{ parameters.appPathOverridePath }}
+            echo "##vso[task.setvariable variable=APP_PATH;]$APP_PATH"
+            echo "##[debug]parameters.appPathOverridePath: ${{ parameters.appPathOverridePath }}"
+          displayName: Set APP_PATH variable
+        - script: |
+            echo "##[debug]APP_PATH: $APP_PATH"
+          displayName: Set APP_PATH variable
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: 'specific'
+          project: 'ab8063b4-8593-4827-9d5a-51174705ff22'
+          definition: '55'
+          buildVersionToDownload: 'specific'
+          buildId: '${{ parameters.asBuildNumber }}'
+          artifactName: 'Android - ${{ parameters.asBuildPipeline }} (${{ parameters.asVersion }})-${{ parameters.asBuildNumber }}'
+          itemPattern: 'AS1-${{ parameters.asVersion }}-${{ parameters.asBuildNumber }}-qa-debug.apk'
+          targetPath: '$(Pipeline.Workspace)/${{ parameters.asBuildNumber }}/'
+        displayName: Download AS1-${{ parameters.asVersion }}-${{ parameters.asBuildNumber }}-qa-debug.apk Android artifact to $(Pipeline.Workspace)/${{ parameters.asBuildNumber }}/
+        condition: eq(${{ parameters.overrideAppPath }}, false)
+
+      - script: |
+          APP_PATH=$(Pipeline.Workspace)/${{ parameters.asBuildNumber }}/AS1-${{ parameters.asVersion }}-${{ parameters.asBuildNumber }}-qa-debug.apk
+          echo "##vso[task.setvariable variable=APP_PATH;]$APP_PATH"
+          echo "APP_PATH: $APP_PATH"
+        displayName: Set APP_PATH variable
+        condition: eq(${{ parameters.overrideAppPath }}, false)
+
+      - script: |
+          set -x
+          sudo launchctl start ${{ parameters.device }}
+          cd  $(projectPath)
+          gem install bundler
+          bundle install
+          mkdir -p docs
+          mkdir -p docs/reports
+          rm -fr docs/xml_reports/*
+        displayName: CheckoutAndFSPreparation
+        name: CheckoutAndFSPreparation
+      - ${{ if eq(parameters.appiumAutoStart, true) }}:
+          - script: |
+              pkill -f bin/appium
+              nohup appium --relaxed-security  -pa /wd/hub  --use-plugins execute-driver &
+            timeoutInMinutes: 1
+            condition: always()
+            name: AppiumStart
+      - ${{ if eq(parameters.getExecutionCandidateFromTR, true) }}:
+          - script: |
+              #set  -x
+              rake tr_execution_candidates TR_EXECUTION=${{parameters.testRailRunID}} \
+                                           TR_NON_EXECUTED_ONLY=${{parameters.executeOnlyNonExecuted}} \
+                                           FEATURES_PATH='${{parameters.featuresPath}}' || true   
+              source ~/.bash_profile && cd $(projectPath) && set  -x && rake reset && rake $(rakeTask) \
+              FEATURES_PATH=@tr_exec_candidates.txt \
+              DRY_RUN=${{parameters.dryRun}} \
+              TAGS='${{parameters.tags}}' \
+              SCENARIO_NAME='${{parameters.scenarioName}}' \
+              DEVICE='${{parameters.device}}' \
+              SITE_NAME='${{parameters.siteName}}' \
+              AS_VERSION=${{parameters.asVersion}} \
+              AS_BUILD_NUMBER=${{parameters.asBuildNumber}} \
+              APP_PATH=$(APP_PATH)  TR_EXECUTION=${{parameters.testRailRunID}} \
+              ADDITIONAL_OPTIONS=${{parameters.additionalOptions}}
+            name: TestsExecutionTRCandidates
+      - ${{ if eq(parameters.getExecutionCandidateFromTR, false) }}:
+        - script: |
+            echo rake $(rakeTask) \
+            FEATURES_PATH='${{parameters.featuresPath}}' \
+            DRY_RUN=${{parameters.dryRun}} \
+            TAGS='${{parameters.tags}}' \
+            SCENARIO_NAME='${{parameters.scenarioName}}' \
+            DEVICE='${{parameters.device}}' \
+            SITE_NAME='${{parameters.siteName}}' \
+            AS_VERSION=${{parameters.asVersion}} \
+            AS_BUILD_NUMBER=${{parameters.asBuildNumber}} \
+            APP_PATH=$(APP_PATH)    TR_EXECUTION=${{parameters.testRailRunID}} \
+            ADDITIONAL_OPTIONS=${{parameters.additionalOptions}}
+            env
+            source ~/.bash_profile && cd $(projectPath) && rake reset && set  -x && rake $(rakeTask) \
+            FEATURES_PATH='${{parameters.featuresPath}}' \
+            DRY_RUN=${{parameters.dryRun}} \
+            TAGS='${{parameters.tags}}' \
+            SCENARIO_NAME='${{parameters.scenarioName}}' \
+            DEVICE='${{parameters.device}}' \
+            SITE_NAME='${{parameters.siteName}}' \
+            AS_VERSION=${{parameters.asVersion}} \
+            AS_BUILD_NUMBER=${{parameters.asBuildNumber}} \
+            APP_PATH=$(APP_PATH)  TR_EXECUTION=${{parameters.testRailRunID}} \
+            ADDITIONAL_OPTIONS=${{parameters.additionalOptions}}
+          name: TestsExecution
+      - ${{ if eq(parameters.appiumAutoStart, true) }}:
+        - script: |
+            pkill -f bin/appium
+          timeoutInMinutes: 1
+          condition: always()
+          name: AppiumStop
+      - script: rake clear_xunit_duplicated
+        name: ReplaceDuplicatedResults
+
+      - script: |
+          set  -x
+          build_number=`curl -s --request GET '$(jenkinsBaseURL)/job/$(jjobname)/api/json?pretty=true' $(jenkinsSecret) | grep "nextBuildNumber" | awk '{print $3}' | sed 's/,//'`
+          allure_url=$(allureBaseURL)/allure/$(Build.DefinitionName)/$(Build.BuildId)
+          jenkins_build_url=$(jenkinsBaseURL)/job/$(jjobname)/$build_number
+          echo "<html><body>\
+          <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$allure_url\">$allure_url</a><br/>\
+          <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$jenkins_build_url\">Allure Trend</a>
+          </body></html>" > ./$(projectPath)/docs/reports/allure_reference.html
+        name: PrepareAllureReportReference
+        displayName: PrepareAllureReportReference
+
+      - ${{ if eq(parameters.exportToTestRails, true) }}:
+        - script: |
+            echo rake export_tr_android \
+            SITE_NAME=${{parameters.siteName}} \
+            AS_VERSION=${{parameters.asVersion}} \
+            AS_BUILD_NUMBER=${{parameters.asBuildNumber}}  \
+            DEVICE=${{parameters.device}} \
+            TR_EXECUTION=${{parameters.testRailRunID}} \
+            TR_OVERWRITE=${{parameters.overwriteSameTestRailResults}}
+
+            cd $(projectPath) && rake export_tr_android \
+            SITE_NAME=${{parameters.siteName}} \
+            AS_VERSION=${{parameters.asVersion}} \
+            AS_BUILD_NUMBER=${{parameters.asBuildNumber}} \
+            DEVICE=${{parameters.device}} \
+            TR_EXECUTION=${{parameters.testRailRunID}} \
+            TR_OVERWRITE=${{parameters.overwriteSameTestRailResults}} || true
+          name: PostResultsToTestRail
+          displayName: PostResultsToTestRail
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+          testResultsFiles: "docs/xml_reports/TEST-*.xml"
+          mergeTestResults: true
+          testRunTitle: 'utang Android test automation result'
+        displayName: 'Publish test results to Azure Pipelines'
+
+      - task: CmdLine@2
+        name: StopAndroidSimulator
+        inputs:
+          script: "sudo launchctl stop ${{ parameters.device }}"
+        condition: always()
+        displayName: Stop Android Simulator
+      - task: PublishAllureReport@1
+        condition: succeededOrFailed()
+        displayName: Publish Allure Reports
+        inputs:
+          reportDir: "$(Build.SourcesDirectory)/docs/allure-report"
+      - task: CopyFiles@2
+        displayName: 'Copy all test results to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          Contents: |
+            *.txt
+            **/allure/**/*.*
+            **/reports/**/*.*
+            **/docs/xml_reports/*.*
+            **/allure-report/**/*.*
+            **/reports_parallel/**/*.*
+          SourceFolder: $(projectPath)
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - script: |
+          set  -x
+          scp -r $(Build.ArtifactStagingDirectory)/docs/allure $(resultsStorageAddress):$(resultsStorage)
+          scp -r $(Build.ArtifactStagingDirectory)/docs/xml_reports $(resultsStorageAddress):$(resultsStorage)
+          echo curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) \
+          --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab
+          
+          curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) \
+          --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab || true
+        name: PostResultsToATJenkins
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'artifacts'
+        displayName: 'Publish Build artifacts'
+
+      - task: PublishHtmlReport@1
+        inputs:
+          tabName: 'Allure Report Reference'
+          reportDir: '$(projectPath)/docs/reports/allure_reference.html'
+        displayName: 'Publish Allure Report Reference'

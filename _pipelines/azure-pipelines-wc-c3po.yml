@@ -1,0 +1,250 @@
+
+variables:
+  - template: azure-vars.yml
+  - name: jjobname
+    value: as1-at-web-c3po
+  - name: resultsStorage
+    value: C:/jenkins/share/as1-at-web-c3po
+  - name: addParametersDefault
+    value: " "
+
+parameters:
+  - name: customCommitSHA
+    type: string
+    default: " "
+  - name: runDescription
+    type: string
+    default: "WC AT C3PO"
+  - name: featuresPath
+    type: string
+    default: "AS1/features"
+  - name: tags
+    type: string
+    default: '--tags @c3po --tags "not @skip" --tags "not @obsolete"  --tags "not @edit_server_config"'
+  - name: scenarioName
+    type: string
+    default: " "
+  - name: environment
+    type: string
+    default: automation
+    values:
+      - automation
+      - 35
+      - 34
+  - name: branch
+    type: string
+    default: DEVELOP
+    values:
+      - DEVELOP
+      - develop-build
+      - release
+      - release-4.1.2
+      - rc
+      - RC-build
+      - rc-2
+  - name: envCustomURL
+    type: string
+    default: ' '
+  - name: appVersion
+    type: string
+    default: "4.2.0"
+  - name: appBuild
+    type: string
+    default: "3540"
+  - name: browser
+    type: string
+    default: chrome
+    values:
+      - chrome
+      - edge
+  - name: rakeTask
+    type: string
+    default: web_at_full
+    values:
+      - web_at_full
+      - web_at_full_tr
+      - web_at_parallel_full
+      - at_setup
+  - name: threads
+    type: number
+    default: 1
+  - name: retries
+    type: number
+    default: 1
+  - name: headless
+    type: boolean
+    default: true
+  - name: dryRun
+    type: boolean
+    default: false
+  - name: gridIP
+    type: string
+    default: 20.88.170.33
+  - name: useGrid
+    type: boolean
+    default: false
+  - name: additionalOptions
+    type: string
+    default: " PATIENT=\\\"Ohm, Georg\\\" CARDIO_PATIENT=\\\"Ohm, Georg\\\" NO_ECG_PATIENT=\\\"da Vinci, Leonardo\\\""
+  - name: testRailRunID
+    type: string
+    default: "13207"
+  - name: exportToTestRails
+    type: boolean
+    default: false
+  - name: overwriteSameTestRailResults
+    type: boolean
+    default: false
+  - name: getExecutionCandidateFromTR
+    type: boolean
+    default: false
+  - name: executeOnlyNonExecuted
+    type: boolean
+    default: false
+#  - name: agent
+#    displayName: agent
+#    type: string
+#    values:
+#      - LMSAQAMAC01
+#      - MACCL10
+#    default: MACCL10
+
+name: "[$(Build.BuildId)] [${{parameters.runDescription}}] [env=${{parameters.environment}}; br=${{parameters.branch}}; v=${{parameters.appVersion}}; b=${{parameters.appBuild}}; ${{parameters.browser}}]"
+trigger:
+  - none
+#- main
+
+jobs:
+  - job: utang_AT
+    timeoutInMinutes: 3000
+    pool:
+      name: AT
+      demands:
+        - any_agent
+#      name: utang Home Office Mac Machines
+#      demands: Agent.ComputerName -equals ${{ parameters.agent }}
+    steps:
+      - checkout: self
+      - ${{ if ne(parameters.customCommitSHA, ' ') }}:
+          - script: |
+              cd  $(projectPath)
+              git reset --hard ${{parameters.customCommitSHA}}
+              cd ..
+            name: CheckoutCustomSHA
+      - script: |
+          env
+          echo "--------"
+          set  -x
+          ssh -o StrictHostKeyChecking=no -t ehraichonak@10.106.5.18 hostname
+          cd  $(projectPath)
+          bundle install
+          bundle update
+          mkdir -p docs
+          mkdir -p docs/reports
+          rm -fr docs/reports/xml_reports/*
+        name: CheckoutAndFSPreparation
+      - ${{ if eq(parameters.getExecutionCandidateFromTR, true) }}:
+          - script: |
+              set  -x
+              rake tr_execution_candidates TR_EXECUTION=${{parameters.testRailRunID}} \
+                                           TR_NON_EXECUTED_ONLY=${{parameters.executeOnlyNonExecuted}} \
+                                           FEATURES_PATH='${{parameters.featuresPath}}' || true   
+              FEATURES_PATH=@tr_exec_candidates.txt
+              if [[ "${{parameters.rakeTask}}" =~ .*"parallel".* ]]
+              then
+                 rm -fr features_run
+                 while read p; do
+                   dir_line="$(cut -d':' -f1 <<<"$p")"
+                   mkdir -p "features_run/$(dirname $dir_line)" && cp $p "features_run/$dir_line"
+                 done <tr_exec_candidates.txt
+                 FEATURES_PATH=features_run/$(projectPath)
+              fi
+              rake ${{parameters.rakeTask}} \
+                            FEATURES_PATH=$FEATURES_PATH DRY_RUN=${{parameters.dryRun}} TAGS='${{parameters.tags}}' SCENARIO_NAME='${{parameters.scenarioName}}' \
+                            ENVIRONMENT=${{parameters.environment}} ENV_CUSTOM_URL=${{parameters.envCustomURL}} BRANCH=${{parameters.branch}} APP_VERSION=${{parameters.appVersion}} \
+                            APP_BUILD=${{parameters.appBuild}} BROWSER=${{parameters.browser}} THREADS=${{parameters.threads}} \
+                            GRID_IP=${{parameters.gridIP}}  GRID=${{parameters.useGrid}} ADDITIONAL_OPTIONS="${{parameters.additionalOptions}}" \
+                            HEADLESS=${{parameters.headless}}  RETRIES=${{parameters.retries}} TR_EXECUTION=${{parameters.testRailRunID}}
+            name: TestsExecutionTRCandidates
+      - ${{ if eq(parameters.getExecutionCandidateFromTR, false) }}:
+          - script: |
+              #echo $SHELL
+              set  -x
+              cd $(projectPath) && rake reset && rake ${{parameters.rakeTask}} \
+              FEATURES_PATH='${{parameters.featuresPath}}' DRY_RUN=${{parameters.dryRun}} TAGS='${{parameters.tags}}' SCENARIO_NAME='${{parameters.scenarioName}}' \
+              ENVIRONMENT=${{parameters.environment}} ENV_CUSTOM_URL=${{parameters.envCustomURL}} BRANCH=${{parameters.branch}} APP_VERSION=${{parameters.appVersion}} \
+              APP_BUILD=${{parameters.appBuild}} BROWSER=${{parameters.browser}} THREADS=${{parameters.threads}} \
+              GRID_IP=${{parameters.gridIP}}  GRID=${{parameters.useGrid}} ADDITIONAL_OPTIONS="${{parameters.additionalOptions}}" \
+              HEADLESS=${{parameters.headless}}  RETRIES=${{parameters.retries}} TR_EXECUTION=${{parameters.testRailRunID}}
+            name: TestsExecution
+      - script: rake clear_xunit_duplicated
+        name: ReplaceDuplicatedResults
+      - script: |
+          set  -x
+          build_number=`curl -s --request GET '$(jenkinsBaseURL)/job/$(jjobname)/api/json?pretty=true' $(jenkinsSecret) | grep "nextBuildNumber" | awk '{print $3}' | sed 's/,//'`
+          allure_url=$(allureBaseURL)/allure/$(Build.DefinitionName)/$(Build.BuildId)
+          jenkins_build_url=$(jenkinsBaseURL)/job/$(jjobname)/$build_number
+          echo "<html><body>\
+          <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$allure_url\">$allure_url</a><br/>\
+          <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$jenkins_build_url\">Allure Trend</a>
+          </body></html>" > ./$(projectPath)/docs/reports/allure_reference.html
+        name: PrepareAllureReportReference
+      #    - script: source ~/.zshrc && source ~/.bash_profile && python --version && python -c "from allure_combine import combine_allure; combine_allure('./$(projectPath)/docs/allure-report')"
+      #      name: AggregateAllureReport
+      - ${{ if eq(parameters.exportToTestRails, true) }}:
+          - script: |
+              set  -x
+              cd $(projectPath) && rake export_tr \
+              ENVIRONMENT=${{parameters.environment}} ENV_CUSTOM_URL=${{parameters.envCustomURL}} BRANCH=${{parameters.branch}} APP_VERSION=${{parameters.appVersion}} \
+              APP_BUILD=${{parameters.appBuild}} BROWSER=${{parameters.browser}} \
+              TR_EXECUTION=${{parameters.testRailRunID}} TR_OVERWRITE=${{parameters.overwriteSameTestRailResults}} || true
+            name: PostResultsToTestRail
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+          testResultsFiles: "docs/reports/xml_reports/TEST-*.xml"
+          mergeTestResults: true
+          testRunTitle: 'utang WebClient test automation result'
+
+      - task: PublishAllureReport@1
+        condition: succeededOrFailed()
+        displayName: Publish Allure Reports
+        inputs:
+          reportDir: "$(Build.SourcesDirectory)/docs/allure-report"
+
+      - task: CopyFiles@2
+        displayName: 'Copy all test results to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          Contents: |
+            *.txt
+            **/mock/*.log
+            **/allure/**/*.*
+            **/reports/**/*.*
+            **/allure-report/**/*.*
+            **/reports_parallel/**/*.*
+          SourceFolder: $(projectPath)
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - script: |
+          set  -x
+          scp -r $(Build.ArtifactStagingDirectory)/docs/allure $(resultsStorageAddress):$(resultsStorage)
+          scp -r $(Build.ArtifactStagingDirectory)/docs/reports/xml_reports $(resultsStorageAddress):$(resultsStorage)
+          echo curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) \
+          --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab
+          
+          curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) \
+          --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab || true
+        name: PostResultsToATJenkins
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'artifacts'
+      - task: PublishHtmlReport@1
+        inputs:
+          tabName: 'Allure Report Reference'
+          reportDir: '$(projectPath)/docs/reports/allure_reference.html'
+    displayName: 'Run utang WebClient test automation - C3PO tests'

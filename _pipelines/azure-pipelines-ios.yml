@@ -1,0 +1,324 @@
+
+#schedules:
+#  - cron: "0 4 * * 2,4"
+#    displayName: Scheduled iOS regression tests against Automation env
+#    branches:
+#      include:
+#        - main
+
+
+variables:
+  - template: azure-vars.yml
+  - name: projectPath
+    value:  as1-at
+  - name: jjobname
+    value: as1-at-ios
+  - name: resultsStorage
+    value: C:/jenkins/share/as1-at-ios
+  - name: rakeTask
+    value: "ios_at_full"
+  - name: system.debug
+    value: "true"
+  - name: system.debug
+    value: "true"
+parameters:
+  - name: customCommitSHA
+    type: string
+    default: " "
+  - name: runDescription
+    type: string
+    default: "iOS Automation"
+  - name: featuresPath
+    type: string
+    default: "iOS/features"
+  - name: tags
+    type: string
+    default: '--tags @automated --tags "not @skip" --tags "not @obsolete"'
+  - name: scenarioName
+    type: string
+    default: " "
+  - name: siteName
+    type: string
+    default: astqaautoenv1-01
+    values:
+      - 35
+      - 34
+      - Auto
+      - Auto Con
+      - astqaautoenv1-01
+
+  - name: asVersion
+    type: string
+    default: 6.10.6
+    values:
+      - 6.10.0
+      - 6.10.1
+      - 6.10.2
+      - 6.10.3
+      - 6.10.4
+      - 6.10.5
+      - 6.10.6
+      - 7.0.0
+      - 7.1.0
+      - 7.1.1
+  - name: platformVersion
+    type: string
+    default: 17.0
+    values:
+      - 14.4
+      - 15.0
+      - 15.5
+      - 16.0
+      - 16.1
+      - 16.2
+      - 17.0
+      - 18.0
+  - name: device
+    type: string
+    default: iPhone 14
+    values:
+      - iPhone 12
+      - iPhone 13
+      - iPhone 14
+      - iPhone 15
+      - iPhone 16
+      - iPhone X
+      - iPhone Xʀ
+      - iPhone SE (2nd generation)
+      - iPhone SE (3rd generation)
+      - iPad (9th generation)
+      - iPad Air (5th generation)
+      - iPad Pro (12.9-inch) (4th generation)
+      - iPad Pro (12.9-inch) (5th generation)
+
+  - name: iOSBinariesStorage
+    displayName: Pre-compiled iOS binaries folder
+    type: string
+    default: /Users/qaautomation/AS1-iOS-binaries
+  - name: appPath
+    displayName: Absolute path to the .app-file. If empty - generated from  device/platformVersion/asVersion parameters
+    type: string
+    default: " "
+
+  - name: asBuildNumber
+    type: string
+    default: "10015"
+
+  - name: retries
+    type: number
+    default: 2
+  - name: testResultsDir
+    displayName: Test results backup for hanged builds
+    type: string
+    default: /Users/qaautomation/iOS-results
+  - name: appiumAutoStart
+    type: boolean
+    default: true
+  - name: dryRun
+    type: boolean
+    default: false
+  - name: agent
+    displayName: agent
+    type: string
+    values:
+      - maccl10-agent-1
+      - maccl10-agent-2
+      - maccl10-agent-3
+    default: maccl10-agent-3
+  - name: testsExecutionTimeoutMin
+    type: number
+    default: 60
+  - name: additionalOptions
+    type: string
+    default: " "
+  - name: testRailRunID
+    type: string
+    default: "13186"
+  - name: exportToTestRails
+    type: boolean
+    default: false
+  - name: overwriteSameTestRailResults
+    type: boolean
+    default: false
+  - name: getExecutionCandidateFromTR
+    type: boolean
+    default: false
+  - name: executeOnlyNonExecuted
+    type: boolean
+    default: false
+
+name: "[$(Build.BuildId)] [${{parameters.runDescription}}] [env=${{parameters.siteName}}; device=${{parameters.device}} on ${{parameters.platformVersion}}; version=${{parameters.asVersion}}; build=${{parameters.asBuildNumber}}]"
+trigger:
+  - none
+
+jobs:
+  - job: utang_AT_iOS
+    continueOnError: true
+    timeoutInMinutes: ${{ parameters.testsExecutionTimeoutMin }}
+    cancelTimeoutInMinutes: 0
+    pool:
+      name: utang Home Office Mac Machines
+      demands: Agent.Name -equals ${{ parameters.agent }}
+    steps:
+      - checkout: self
+      - script: |
+          echo "##vso[task.setvariable variable=appPath]${{parameters.appPath}}"
+          echo "##vso[task.setvariable variable=projectPath]."
+          echo "##vso[task.setvariable variable=xmlResultsPath]docs/xml_reports/TEST-*.xml"
+      - ${{ if ne(parameters.customCommitSHA, ' ') }}:
+          - script: |
+              cd  $(projectPath)
+              git reset --hard ${{parameters.customCommitSHA}}
+              cd ..
+            name: CheckoutCustomSHA
+      - script: |
+          #rm -fr appium
+          cd  $(projectPath)
+          gem install bundler
+          bundle
+          bundler install
+          bundle info selenium-webdriver
+          mkdir -p docs
+        name: CheckoutAndFSPreparation
+      - ${{ if eq(parameters.appiumAutoStart, true) }}:
+          - script: |
+              pkill -f bin/appium
+              nohup appium --relaxed-security  -pa /wd/hub  --use-plugins execute-driver &
+            timeoutInMinutes: 1
+            condition: always()
+            name: AppiumStart
+      - ${{ if eq(parameters.getExecutionCandidateFromTR, true) }}:
+          - script: |
+              set  -x	
+              cd $(projectPath)
+              rake tr_execution_candidates TR_EXECUTION=${{parameters.testRailRunID}} \
+                                           TR_NON_EXECUTED_ONLY=${{parameters.executeOnlyNonExecuted}} \
+                                           FEATURES_PATH='${{parameters.featuresPath}}' || true   	
+              
+              rake reset && rake $(rakeTask) \
+              FEATURES_PATH=@tr_exec_candidates.txt DRY_RUN=${{parameters.dryRun}} TAGS='${{parameters.tags}}' SCENARIO_NAME='${{parameters.scenarioName}}' \
+              DEVICE='${{parameters.device}}' VERSION=${{parameters.platformVersion}} \
+              AS_VERSION=${{parameters.asVersion}}  AS_BUILD_NUMBER=${{parameters.asBuildNumber}} REPORT_FOLDER=${{parameters.testResultsDir}} \
+              APP_PATH=$(appPath) SITE_NAME=${{parameters.siteName}}  TR_EXECUTION=${{parameters.testRailRunID}}  ADDITIONAL_OPTIONS=${{parameters.additionalOptions}}  2>&1 | tee debug.log
+              rake clear_xunit_duplicated
+              build_number=`curl -s --request GET '$(jenkinsBaseURL)/job/$(jjobname)/api/json?pretty=true' $(jenkinsSecret) | grep "nextBuildNumber" | awk '{print $3}' | sed 's/,//'`
+                        allure_url=$(allureBaseURL)/allure/$(Build.DefinitionName)/$(Build.BuildId)
+                        jenkins_build_url=$(jenkinsBaseURL)/job/$(jjobname)/$build_number	
+                        echo "<html><body>\
+                        <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$allure_url\">$allure_url</a><br/>\
+                        <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$jenkins_build_url\">Allure Trend</a>
+                        </body></html>" > ./$(projectPath)/docs/allure_reference.html
+              echo exportToTestRails=${{parameters.exportToTestRails}}
+            name: TestsExecutionTRCandidates
+            continueOnError: true
+      - ${{ if eq(parameters.getExecutionCandidateFromTR, false) }}:
+          - script: |
+              set -x
+              cd $(projectPath) && rake reset && set -x && rake $(rakeTask) \
+              FEATURES_PATH='${{parameters.featuresPath}}' DRY_RUN=${{parameters.dryRun}} TAGS='${{parameters.tags}}' SCENARIO_NAME='${{parameters.scenarioName}}' \
+              DEVICE='${{parameters.device}}' VERSION=${{parameters.platformVersion}}  \
+              AS_VERSION=${{parameters.asVersion}}  AS_BUILD_NUMBER=${{parameters.asBuildNumber}} REPORT_FOLDER=${{parameters.testResultsDir}} \
+              APP_PATH=$(appPath) SITE_NAME=${{parameters.siteName}}    TR_EXECUTION=${{parameters.testRailRunID}}  ADDITIONAL_OPTIONS=${{parameters.additionalOptions}} 2>&1 | tee debug.log
+              rake clear_xunit_duplicated
+            name: TestsExecution
+            continueOnError: true
+      #      - script: cp -fr  /Users/qaautomation/azagent/_work/_temp /Users/qaautomation/WORK
+      - ${{ if eq(parameters.appiumAutoStart, true) }}:
+          - script: |
+              pkill -f bin/appium
+            timeoutInMinutes: 1
+            condition: always()
+            name: AppiumStop
+    displayName: 'Run utang iOS test automation'
+  - job: Post_Tests_Execution_Results
+    cancelTimeoutInMinutes: 0
+    dependsOn: utang_AT_iOS
+    pool:
+      name: utang Home Office Mac Machines
+      demands: Agent.ComputerName -equals MACCL10
+    condition: always()
+    steps:
+      - script: |
+          mkdir -p docs && cp -fr ${{parameters.testResultsDir}}/** docs/
+          build_number=`curl -s --request GET '$(jenkinsBaseURL)/job/$(jjobname)/api/json?pretty=true' $(jenkinsSecret) | grep "nextBuildNumber" | awk '{print $3}' | sed 's/,//'`
+                                 allure_url=$(allureBaseURL)/allure/$(Build.DefinitionName)/$(Build.BuildId)
+                                 jenkins_build_url=$(jenkinsBaseURL)/job/$(jjobname)/$build_number	
+                                 echo "<html><body>\
+                                 <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$allure_url\">$allure_url</a><br/>\
+                                 <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"$jenkins_build_url\">Allure Trend</a>
+                                 </body></html>" > ./docs/allure_reference.html
+        condition: always()
+        timeoutInMinutes: 5
+        continueOnError: true
+        name: RestoreTestExecutionResultsAndGenerateAllureReference
+
+      - ${{ if eq(parameters.exportToTestRails, true) }}:
+          - script: |
+              rake export_tr_ios \
+              SITE_NAME=${{parameters.siteName}} AS_VERSION=${{parameters.asVersion}} \
+              AS_BUILD_NUMBER=${{parameters.asBuildNumber}}  DEVICE='${{parameters.device}}'  VERSION=${{parameters.platformVersion}} \
+              TR_EXECUTION=${{parameters.testRailRunID}} TR_OVERWRITE=${{parameters.overwriteSameTestRailResults}} || true
+            condition: always()
+            timeoutInMinutes: 5
+            continueOnError: true
+            name: PostResultsToTestRail
+      - task: PublishTestResults@2
+        timeoutInMinutes: 1
+        condition: always()
+        continueOnError: true
+        inputs:
+          testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+          testResultsFiles: "docs/xml_reports/TEST-*.xml"
+          mergeTestResults: true
+          testRunTitle: 'utang iOS test automation result'
+      - task: PublishAllureReport@1
+        timeoutInMinutes: 1
+        condition: always()
+        continueOnError: true
+        displayName: Publish Allure Reports
+        inputs:
+          reportDir: "$(Build.SourcesDirectory)/docs/allure-report"
+      - task: CopyFiles@2
+        condition: always()
+        continueOnError: true
+        displayName: 'Copy all test results to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          Contents: |
+            *.txt
+            **/allure/**/*.*
+            **/docs/xml_reports/*.*
+            **/allure-report/**/*.*
+            **/reports_parallel/**/*.*
+          SourceFolder: .
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        timeoutInMinutes: 1
+        condition: always()
+        continueOnError: true
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'artifacts'
+      - task: PublishHtmlReport@1
+        condition: always()
+        continueOnError: true
+        inputs:
+          tabName: 'Allure Report Reference'
+          reportDir: 'docs/allure_reference.html'
+
+      - script: |
+          set  -x
+          scp -r $(Build.ArtifactStagingDirectory)/docs/allure $(resultsStorageAddress):$(resultsStorage)
+          scp -r $(Build.ArtifactStagingDirectory)/docs/xml_reports $(resultsStorageAddress):$(resultsStorage)
+          echo curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) \
+          --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab
+
+          curl --location --request POST '$(jenkinsBaseURL)/job/$(jjobname)/buildWithParameters' \
+          $(jenkinsSecret) --form results=$(resultsStorage) \
+          --form trigger=$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=ms.vss-test-web.build-test-results-tab || true
+        condition: always()
+        continueOnError: true
+        timeoutInMinutes: 1
+        name: PostResultsToATJenkins
+    displayName: 'Post hanged build'

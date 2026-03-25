@@ -1,0 +1,76 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "url": "/one"
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "id": "8c5db8b0-2db4-4ad7-a99f-38c9b00da3f7",
+      "request": {
+        "url": "/two"
+      },
+      "response": {
+        "body": "Updated"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/patient/summary",
+        "queryParameters": {
+          "siteid": {
+            "matches": "4751"
+          },
+          "asmpid": {
+            "matches": "99999999-9999-9999-9999-999999999999"
+          }
+        }
+      },
+      "response": {
+        "body":
+      "{\n  \"responseCode\": 0,\n  \"model\": {\n    \"tiles\": {\n      \"demographics\": {\n        \"title\": \"GENERAL INFO\",\n        \"error\": null,\n        \"model\": {\n          \"icon\": \"ic_demographics\",\n          \"legend\": \"\",\n          \"fields\": [\n            {\n              \"label\": \"Patient Name\",\n              \"value\": \"Tesla,Nikola\"\n            },\n            {\n              \"label\": \"MRN\",\n              \"value\": \"156295\"\n            },\n            {\n              \"label\": \"DOB\",\n              \"value\": \"7/10/1956\"\n            },\n            {\n              \"label\": \"Gender\",\n              \"value\": \"Male\"\n            },\n            {\n              \"label\": \"Age\",\n              \"value\": \"67\"\n            }\n          ]\n        }\n      },\n      \"monitor\": {\n        \"title\": \"MONITOR\",\n        \"error\": null,\n        \"model\": {\n          \"eventData\": [\n            {\n              \"message\": \"HI RR\",\n              \"eventTime\": \"2024-02-20T18:06:59Z\",\n              \"level\": \"Medium\"\n            },\n            {\n              \"message\": \"HI RR\",\n              \"eventTime\": \"2024-02-20T17:46:59Z\",\n              \"level\": \"Medium\"\n            },\n            {\n              \"message\": \"HI RR\",\n              \"eventTime\": \"2024-02-20T17:26:59Z\",\n              \"level\": \"Medium\"\n            },\n            {\n              \"message\": \"HI RR\",\n              \"eventTime\": \"2024-02-20T17:06:59Z\",\n              \"level\": \"Medium\"\n            },\n            {\n              \"message\": \"HI RR\",\n              \"eventTime\": \"2024-02-20T16:46:59Z\",\n              \"level\": \"Medium\"\n            }\n          ],\n          \"status\": \"active\",\n          \"count\": 70,\n          \"hours\": 72\n        }\n      },\n      \"ecgs\": {\n        \"title\": \"ECGS\",\n        \"error\": null,\n        \"model\": {\n          \"count\": 2,\n          \"firstEcgId\": 42816,\n          \"legend\": \"\",\n          \"testlist\": null\n        }\n      },\n      \"images\": {\n        \"title\": \"IMAGES\",\n        \"error\": null,\n        \"model\": {\n          \"icon\": \"ic_images\",\n          \"count\": 16,\n          \"launch_context\": {\n            \"url\": \"resmds://ord1.demo.calgaryscientific.com:80/studylist?DicomRepository=PACS3_VNA_Cloud&PatientID=73366789&username=guest&password=guest&returnUrl=utangone://\"\n          }\n        }\n      },\n      \"allergies\": {\n        \"title\": \"ALLERGIES\",\n        \"error\": null,\n        \"model\": {\n          \"allergies\": [\n            {\n              \"type\": \"DRUG\",\n              \"name\": \"Zetia\",\n              \"reaction\": \"diarrhea\"\n            },\n            {\n              \"type\": \"DRUG\",\n              \"name\": \"statins\",\n              \"reaction\": \"myalgia\"\n            },\n            {\n              \"type\": \"DRUG\",\n              \"name\": \"Fosamax\",\n              \"reaction\": \"dizziness\"\n            },\n            {\n              \"type\": \"DRUG\",\n              \"name\": \"Cozaar\",\n              \"reaction\": \"dizziness\"\n            },\n            {\n              \"type\": \"DRUG\",\n              \"name\": \"codeine\",\n              \"reaction\": \"constipation,rash\"\n            },\n            {\n              \"type\": \"DRUG\",\n              \"name\": \"erythromycin-2\",\n              \"reaction\": \"rash\"\n            },\n            {\n              \"type\": \"DRUG\",\n              \"name\": \"lactose intolerant\",\n              \"reaction\": null\n            },\n            {\n              \"type\": \"DRUG\",\n              \"name\": \"sulfamethoxazole\",\n              \"reaction\": \"rash\"\n            },\n            {\n              \"type\": \"DRUG\",\n              \"name\": \"Flagyl\",\n              \"reaction\": \"rash\"\n            }\n          ]\n        }\n      },\n      \"documents\": {\n        \"title\": \"RHYTHMS\",\n        \"error\": null,\n        \"model\": {\n          \"icon\": \"\",\n          \"count\": 46,\n          \"legend\": \"\",\n          \"docs\": [\n            {\n              \"name\": \"\",\n              \"date\": \"2024-01-22T12:55:26-06:00\"\n            },\n            {\n              \"name\": \"NSR\",\n              \"date\": \"2023-09-12T15:51:56-05:00\"\n            },\n            {\n              \"name\": \"WATCHOUT\",\n              \"date\": \"2023-09-12T15:44:15-05:00\"\n            },\n            {\n              \"name\": \"NSR\",\n              \"date\": \"2023-09-11T11:42:32-05:00\"\n            },\n            {\n              \"name\": \"NSR\",\n              \"date\": \"2023-09-11T11:39:51-05:00\"\n            },\n            {\n              \"name\": \"AAAAAA\",\n              \"date\": \"2023-08-29T21:33:56-05:00\"\n            }\n          ],\n          \"hasMultipleBatches\": false\n        }\n      }\n    }\n  },\n  \"error\": null\n}\n"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/fed-web/api/patient/summary",
+        "queryParameters": {
+          "siteid": {
+            "matches": "4751"
+          },
+          "asmpid": {
+            "matches": "226a6d24-a009-42cb-bb0b-5f1560c3ea6e"
+          }
+        }
+      },
+      "response": {
+        "body":
+        "{\n    \"responseCode\": 0,\n    \"model\": {\n        \"tiles\": {\n            \"demographics\": {\n                \"title\": \"GENERAL INFO\",\n                \"error\": null,\n                \"model\": {\n                    \"icon\": \"ic_demographics\",\n                    \"legend\": \"\",\n                    \"fields\": [\n                        {\n                            \"label\": \"Patient Name\",\n                            \"value\": \"QA8,QA8\"\n                        },\n                        {\n                            \"label\": \"MRN\",\n                            \"value\": \"QA8\"\n                        },\n                        {\n                            \"label\": \"DOB\",\n                            \"value\": \"1/12/1989\"\n                        },\n                        {\n                            \"label\": \"Gender\",\n                            \"value\": \"Male\"\n                        },\n                        {\n                            \"label\": \"Age\",\n                            \"value\": \"35\"\n                        }\n                    ]\n                }\n            },\n            \"monitor\": {\n                \"title\": \"MONITOR\",\n                \"error\": null,\n                \"model\": {\n                    \"eventData\": [\n                    ],\n                    \"status\": \"active\",\n                    \"count\": 71,\n                    \"hours\": 72\n                }\n            },\n            \"ecgs\": {\n                \"title\": \"ECGS\",\n                \"error\": null,\n                \"model\": {\n                    \"icon\": \"ic_ecg\",\n                    \"count\": 0,\n                    \"firstEcgId\": 0,\n                    \"legend\": \"\"\n                }\n            },\n            \"documents\": {\n                \"title\": \"RHYTHMS\",\n                \"error\": null,\n                \"model\": {\n                    \"icon\": \"\",\n                    \"count\": 1,\n                    \"legend\": \"\",\n                    \"docs\": [\n                        {\n                            \"name\": \"\",\n                            \"date\": \"2024-01-30T16:58:15-06:00\"\n                        }\n                    ],\n                    \"hasMultipleBatches\": false\n                }\n            }\n        }\n    },\n    \"error\": null\n}"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/fed-web/api/patient/summary",
+        "queryParameters": {
+          "siteid": {
+            "matches": "4751"
+          },
+          "asmpid": {
+            "matches": "adca2624-118a-4760-a75f-5c3acdddb5ea"
+          }
+        }
+      },
+      "response": {
+        "body":
+        "{\n    \"responseCode\": 0,\n    \"model\": {\n        \"tiles\": {\n            \"demographics\": {\n                \"title\": \"GENERAL INFO\",\n                \"error\": null,\n                \"model\": {\n                    \"icon\": \"ic_demographics\",\n                    \"legend\": \"\",\n                    \"fields\": [\n                        {\n                            \"label\": \"Patient Name\",\n                            \"value\": \"QA9,QA9\"\n                        },\n                        {\n                            \"label\": \"MRN\",\n                            \"value\": \"QA9\"\n                        },\n                        {\n                            \"label\": \"DOB\",\n                            \"value\": \"11/1/1959\"\n                        },\n                        {\n                            \"label\": \"Gender\",\n                            \"value\": \"Male\"\n                        },\n                        {\n                            \"label\": \"Age\",\n                            \"value\": \"64\"\n                        }\n                    ]\n                }\n            },\n            \"monitor\": {\n                \"title\": \"MONITOR\",\n                \"error\": null,\n                \"model\": {\n                    \"eventData\": [\n                    ],\n                    \"status\": \"inactive\",\n                    \"count\": 71,\n                    \"hours\": 72\n                }\n            },\n            \"ecgs\": {\n                \"title\": \"ECGS\",\n                \"error\": null,\n                \"model\": {\n                    \"icon\": \"ic_ecg\",\n                    \"count\": 0,\n                    \"firstEcgId\": 0,\n                    \"legend\": \"\"\n                }\n            },\n            \"documents\": {\n                \"title\": \"RHYTHMS\",\n                \"error\": null,\n                \"model\": {\n                    \"icon\": \"\",\n                    \"count\": 1,\n                    \"legend\": \"\",\n                    \"docs\": [\n                        {\n                            \"name\": \"\",\n                            \"date\": \"2024-01-30T17:30:33-06:00\"\n                        }\n                    ],\n                    \"hasMultipleBatches\": false\n                }\n            }\n        }\n    },\n    \"error\": null\n}"
+      }
+    }
+  ]
+}

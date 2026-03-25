@@ -1,0 +1,124 @@
+{
+  "General": {
+    "Description": "TC17 flight plan configuration",
+    "IsJsonSetup": true,
+    "ClearDatabase": true,
+    "ResetFlightManager": true,
+    "ClearAlarms": true,
+    "WriteOutputToFile": true,
+    "OutputFile": "c:\\temp\\test_output.txt"
+  },
+  "Enterprise":
+  {
+    "Id": "Enterprise1",
+    "Name": "Enterprise1",
+    "Facilities": [
+      {
+        "Id": "Facility1",
+        "Name": "Facility1",
+        "Units": [
+          {
+            "Id": "ICU3",
+            "Name": "ICU3",
+            "Aliases": [ { "Alias": "ICU3" } ],
+            "Rooms": [
+              {
+                "Id": "ICU3-1",
+                "Name": "ICU3",
+                "Aliases": [ { "Alias": "ICU3" } ],
+                "Addresses": [ "ICU3-Address" ],
+                "Beds": [
+                  {
+                    "Id": "B890",
+                    "Name": "B890",
+                    "Aliases": [ { "Alias": "B890" } ],
+                    "Addresses": [ "B890-Address" ]
+                  },
+                  {
+                    "Id": "B999",
+                    "Name": "B999",
+                    "Aliases": [ { "Alias": "B999" } ],
+                    "Addresses": [ "B999-Address" ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "SoftKeys": [
+    {
+      "Id": "Key1",
+      "SendChoice": "Yes",
+      "ReplyChoice": "Accept",
+      "IsAccept": true
+    },
+    {
+      "Id": "Key2",
+      "SendChoice": "No",
+      "ReplyChoice": "Escalate",
+      "IsEscalate": true
+    },
+    {
+      "Id": "Key3",
+      "SendChoice": "Cancel",
+      "ReplyChoice": "View",
+      "IsEscalate": true
+    }
+  ],
+  "Priorities": [
+    {
+      "Id": "HIGH",
+      "label": "HIGH",
+      "priorityLevel": "HIGH",
+      "isUrgent": true
+    },
+    {
+      "Id": "MEDIUM",
+      "label": "MEDIUM",
+      "priorityLevel": "MEDIUM"
+    },
+    {
+      "Id": "LOW",
+      "label": "LOW",
+      "priorityLevel": "LOW"
+    }
+  ],
+  "Destinations": [
+    {"Id": "Destination1_SingleRec_tc17", "Name": "Destination1_SingleRec_tc17", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_SingleRec_tc17", "Name": "Destination2_SingleRec_tc17", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"}
+  ],
+  "Recipients": [
+    {"Id": "Test_Rec1_tc17", "Address": "autoignore", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc17", "Address": "autoaccept", "AddressContext" : "DEFAULT"}
+  ],
+  "Assignments": {
+    "Name": "Assignments1",
+    "assignmentRecords": [
+      {"DestinationId": "Destination1_SingleRec_tc17", "LocationId": "B890", "RecipientId": "Test_Rec1_tc17"},
+      {"DestinationId": "Destination2_SingleRec_tc17", "LocationId": "B890", "RecipientId": "Test_Rec2_tc17"}
+    ]
+  },
+  "FlightPlan": {
+    "Id": "FlightPlan1_tc17",
+    "FlightPlanRecords": [
+      {"Id": "FlightPlanRecord1_tc17", "AlarmType": "TC17_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC17_Alarm" ],
+        "SuspendInterval": "00:00:15", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:00", "CancellationSuspend": "00:00:30",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:50", "DestinationIds": ["Destination1_SingleRec_tc17"]},
+          {"Level": 2, "EscalationInterval": "00:00:10", "DestinationIds": ["Destination2_SingleRec_tc17"]}
+        ]
+      }
+    ],
+    "Units": [{ "Id": "ICU3" }]
+  },
+  "Actions": [
+    {
+      "ActionName": "RefreshCaches",
+      "Description": "RefreshCaches"
+    }
+  ]
+}

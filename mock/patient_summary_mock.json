@@ -1,0 +1,184 @@
+{
+  "responseCode": 0,
+  "model": {
+    "tiles": {
+      "demographics": {
+        "title": "GENERAL INFO",
+        "error": null,
+        "model": {
+          "icon": "ic_demographics",
+          "legend": "",
+          "fields": [
+            {
+              "label": "Patient Name",
+              "value": "Tesla,Nikola"
+            },
+            {
+              "label": "MRN",
+              "value": "156295"
+            },
+            {
+              "label": "DOB",
+              "value": "7/10/1956"
+            },
+            {
+              "label": "Gender",
+              "value": "Male"
+            },
+            {
+              "label": "Age",
+              "value": "67"
+            }
+          ]
+        }
+      },
+      "monitor": {
+        "title": "MONITOR",
+        "error": null,
+        "model": {
+          "eventData": [
+            {
+              "message": "HI RR",
+              "eventTime": "2024-02-20T18:06:59Z",
+              "level": "Medium"
+            },
+            {
+              "message": "HI RR",
+              "eventTime": "2024-02-20T17:46:59Z",
+              "level": "Medium"
+            },
+            {
+              "message": "HI RR",
+              "eventTime": "2024-02-20T17:26:59Z",
+              "level": "Medium"
+            },
+            {
+              "message": "HI RR",
+              "eventTime": "2024-02-20T17:06:59Z",
+              "level": "Medium"
+            },
+            {
+              "message": "HI RR",
+              "eventTime": "2024-02-20T16:46:59Z",
+              "level": "Medium"
+            }
+          ],
+          "status": "active",
+          "count": 70,
+          "hours": 72
+        }
+      },
+      "ecgs": {
+        "title": "ECGS",
+        "error": null,
+        "model": {
+          "count": 2,
+          "firstEcgId": 42816,
+          "legend": "",
+          "testlist": null
+        }
+      },
+      "images": {
+        "title": "IMAGES",
+        "error": null,
+        "model": {
+          "icon": "ic_images",
+          "count": 16,
+          "launch_context": {
+            "url": "resmds://ord1.demo.calgaryscientific.com:80/studylist?DicomRepository=PACS3_VNA_Cloud&PatientID=73366789&username=guest&password=guest&returnUrl=utangone://"
+          }
+        }
+      },
+      "allergies": {
+        "title": "ALLERGIES",
+        "error": null,
+        "model": {
+          "allergies": [
+            {
+              "type": "DRUG",
+              "name": "Zetia",
+              "reaction": "diarrhea"
+            },
+            {
+              "type": "DRUG",
+              "name": "statins",
+              "reaction": "myalgia"
+            },
+            {
+              "type": "DRUG",
+              "name": "Fosamax",
+              "reaction": "dizziness"
+            },
+            {
+              "type": "DRUG",
+              "name": "Cozaar",
+              "reaction": "dizziness"
+            },
+            {
+              "type": "DRUG",
+              "name": "codeine",
+              "reaction": "constipation,rash"
+            },
+            {
+              "type": "DRUG",
+              "name": "erythromycin-2",
+              "reaction": "rash"
+            },
+            {
+              "type": "DRUG",
+              "name": "lactose intolerant",
+              "reaction": null
+            },
+            {
+              "type": "DRUG",
+              "name": "sulfamethoxazole",
+              "reaction": "rash"
+            },
+            {
+              "type": "DRUG",
+              "name": "Flagyl",
+              "reaction": "rash"
+            }
+          ]
+        }
+      },
+      "documents": {
+        "title": "RHYTHMS",
+        "error": null,
+        "model": {
+          "icon": "",
+          "count": 46,
+          "legend": "",
+          "docs": [
+            {
+              "name": "",
+              "date": "2024-01-22T12:55:26-06:00"
+            },
+            {
+              "name": "NSR",
+              "date": "2023-09-12T15:51:56-05:00"
+            },
+            {
+              "name": "WATCHOUT",
+              "date": "2023-09-12T15:44:15-05:00"
+            },
+            {
+              "name": "NSR",
+              "date": "2023-09-11T11:42:32-05:00"
+            },
+            {
+              "name": "NSR",
+              "date": "2023-09-11T11:39:51-05:00"
+            },
+            {
+              "name": "AAAAAA",
+              "date": "2023-08-29T21:33:56-05:00"
+            }
+          ],
+          "hasMultipleBatches": false
+        }
+      }
+    }
+  },
+  "error": null
+}

@@ -1,0 +1,1 @@
+get-ciminstance win32_process -Filter 'Name like "cmd%" and CommandLIne  like "%CreateAlarm%"'| foreach {Stop-Process -Id $_.ParentProcessId}

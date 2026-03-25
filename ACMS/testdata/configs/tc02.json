@@ -1,0 +1,85 @@
+{
+  "General": {
+    "Description": "TC02 flight plan configuration",
+    "IsJsonSetup": true,
+    "ClearDatabase": true,
+    "ResetFlightManager": true,
+    "ClearAlarms": true,
+    "WriteOutputToFile": false,
+    "OutputFile": "c:\\temp\\test_output.txt"
+  },
+  "Enterprise": {
+    "Id": "Enterprise1", "Name": "Enterprise1",
+    "Facilities": [
+      {
+        "Id": "Facility1", "Name": "Facility1",
+        "Units": [
+          {
+            "Id": "ICU3", "Name": "ICU3",
+            "Aliases": [ { "Alias": "ICU3" } ],
+            "Rooms": [
+              {
+                "Id": "ICU3-1", "Name": "ICU3", "Aliases": [ { "Alias": "ICU3" } ], "Addresses": [ "ICU3-Address" ],
+                "Beds": [
+                  {"Id": "B890", "Name": "B890", "Aliases": [ { "Alias": "B890" } ], "Addresses": [ "B890-Address" ]},
+                  {"Id": "B999", "Name": "B999", "Aliases": [ { "Alias": "B999" } ], "Addresses": [ "B999-Address" ]}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "SoftKeys": [
+    {"Id": "Key1", "SendChoice": "Yes", "ReplyChoice": "Accept", "IsAccept": true},
+    {"Id": "Key2", "SendChoice": "No", "ReplyChoice": "Escalate", "IsEscalate": true},
+    {"Id": "Key3", "SendChoice": "Cancel", "ReplyChoice": "View", "IsEscalate": true}
+  ],
+  "Destinations": [
+    {"Id": "Destination1_MultRec_tc02", "Name": "Destination1_MultRec", "EnterpriseId": "Enterprise1", "LocationScope": "Unit"},
+    {"Id": "Destination2_MultRec_tc02", "Name": "Destination2_MultRec", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"},
+    {"Id": "Destination3_MultRec_tc02", "Name": "Destination3_MultRec", "EnterpriseId": "Enterprise1", "LocationScope": "Bed"}
+  ],
+  "Recipients": [
+    {"Id": "Test_Rec1_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec2_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec3_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec4_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec5_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"},
+    {"Id": "Test_Rec6_tc02", "Address": "autoaccept", "AddressContext" : "DEFAULT"}
+  ],
+  "Assignments": {
+    "Name": "Assignments1",
+    "assignmentRecords": [
+      {"DestinationId": "Destination1_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec1_tc02"},
+      {"DestinationId": "Destination1_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec2_tc02"},
+      {"DestinationId": "Destination2_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec3_tc02"},
+      {"DestinationId": "Destination2_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec4_tc02"},
+      {"DestinationId": "Destination3_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec5_tc02"},
+      {"DestinationId": "Destination3_MultRec_tc02", "LocationId": "B890", "RecipientId": "Test_Rec6_tc02"}
+    ]
+  },
+  "FlightPlan": {
+    "Id": "FlightPlan1_tc02",
+    "FlightPlanRecords": [
+      {"Id": "FlightPlanRecord1_tc02", "AlarmType": "TC02_Alarm", "UserTriage": true, "AlarmTypeStrings": [ "TC02_Alarm" ],
+        "SuspendInterval": "00:00:00", "AutoCancelTimeSpan": "00:00:00", "DelayOnAccept": "00:00:10", "CancellationSuspend": "00:00:00",
+        "PriorityId": "High", "SoftKeyIds": [ "Key1", "Key2", "Key3" ],
+        "EscalationLevels": [
+          {"Level": 1, "EscalationInterval": "00:00:40", "DestinationIds": ["Destination1_MultRec_tc02"]},
+          {"Level": 2, "EscalationInterval": "00:00:40", "DestinationIds": ["Destination2_MultRec_tc02"]},
+          {"Level": 3, "EscalationInterval": "00:00:40", "DestinationIds": ["Destination3_MultRec_tc02"]
+          }
+        ]
+      }
+    ],
+    "Units": [{ "Id": "ICU3" }]
+  },
+  "Actions": [
+    {
+      "ActionName": "RefreshCaches",
+      "Description": "RefreshCaches"
+    }
+  ]
+}
