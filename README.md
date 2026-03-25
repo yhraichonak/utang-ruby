@@ -1,6 +1,12 @@
 # UTANG - Test Automation Framework
 
-Here pre-setup steps could be found: [Automation common requirements](https://utang.atlassian.net/wiki/spaces/TT/pages/3143696421/Automation+common+requirements).
+Unified test automation framework for running API, UI, iOS, and Android tests with Azure DevOps and Jenkins CI integration. 
+ - Dockerized environment setup for running Web client UI and API tests
+ - Integration with iOS simulators and Android emulators for running mobile tests on self-hosted runner
+ - Ability to run automated tests based on TestRail suites and export test execution results to the test management system
+ - Instant notifications and reporting of test results in Microsoft Teams and Slack channels
+
+[Automation common requirements](https://utang.atlassian.net/wiki/spaces/TT/pages/3143696421/Automation+common+requirements).
 
 
 <details>
