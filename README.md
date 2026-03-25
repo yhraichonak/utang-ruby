@@ -9,7 +9,7 @@ Unified test automation framework for running API, UI, iOS, and Android tests wi
 [Automation common requirements](https://utang.atlassian.net/wiki/spaces/TT/pages/3143696421/Automation+common+requirements).
 
 
-<details>
+<details open>
   <summary >Features</summary>
 <h6>A. Hierarchical test-data management</h6>
 <img title="dsgdgfgdffgd" src="src0.png" width="500"/>
